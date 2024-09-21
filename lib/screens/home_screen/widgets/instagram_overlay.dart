@@ -19,7 +19,7 @@ class InstagramOverlay extends ConsumerWidget {
     final overflowedRows = ref.watch(overflowedRowsProvider(containerWidth));
     final itemsToRemove = overflowedRows * 3;
 
-// Adjust the item count to account for the removed items
+    // Adjust the item count to account for the removed items
     final adjustedItemCount = (nodes.length > itemsToRemove)
         ? nodes.length - itemsToRemove
         : 0; // Prevent negative count
