@@ -13,6 +13,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final navigation = ref.watch(navigationStateProvider);
+    final nodes = ref.watch(nodesProvider);
 
     return Scaffold(
         body: SafeArea(
@@ -28,9 +29,20 @@ class HomeScreen extends ConsumerWidget {
       Align(
           alignment: Alignment.bottomLeft,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(navigation.name.toString()),
-              Text(ref.read(nodesProvider).length.toString()),
+              Text(
+                navigation.name.toString(),
+                style: const TextStyle(color: Colors.red),
+              ),
+              Text(
+                nodes.length.toString(),
+                style: const TextStyle(color: Colors.red),
+              ),
+              Text(
+                nodes.isNotEmpty ? nodes.first.user.username.toString() : "",
+                style: const TextStyle(color: Colors.red),
+              ),
             ],
           )),
     ])));

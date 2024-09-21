@@ -5,13 +5,14 @@ import 'package:story_saver_video_downloader/providers/navigation_state_provider
 import 'package:story_saver_video_downloader/providers/nodes_provider.dart';
 
 void updateNavigationState(WidgetRef ref, String url) {
+  final nodes = ref.read(nodesProvider);
+
   if (url == "https://www.instagram.com/") {
     // Set the navigation state to the initial state
     ref.read(navigationStateProvider.notifier).state = NavigationState.idle;
+    ref.read(nodesProvider.notifier).state = [];
     return;
   }
-
-  final nodes = ref.read(nodesProvider);
 
   /// TRY TO EXTRACT THE CODE FROM THE URL
   // Check the current url
@@ -30,17 +31,19 @@ void updateNavigationState(WidgetRef ref, String url) {
   final match = regExp.firstMatch(url);
   final username = match?.group(1);
 
-  if (username != null) {
+  if (username != null && username != "p") {
     // Updaete the navigation state
     ref.read(navigationStateProvider.notifier).state = NavigationState.profile;
 
     // Get the username from the nodes
-    final newUsername = nodes.first.user.username;
+    if (nodes.isNotEmpty) {
+      final newUsername = nodes.first.user.username;
 
-    // Compare the username
-    if (username != newUsername) {
-      // Initialize the array if the usernames doesn't match
-      ref.read(nodesProvider.notifier).state = [];
+      // Compare the username
+      if (username != newUsername) {
+        // Initialize the array if the usernames doesn't match
+        ref.read(nodesProvider.notifier).state = [];
+      }
     }
   }
 

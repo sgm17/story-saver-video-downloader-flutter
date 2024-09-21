@@ -1,3 +1,5 @@
+import 'package:story_saver_video_downloader/models/navigation_state.dart';
+import 'package:story_saver_video_downloader/providers/navigation_state_provider.dart';
 import 'package:story_saver_video_downloader/providers/web_view_controller_provider.dart';
 import 'package:story_saver_video_downloader/providers/initial_y_position_provider.dart';
 import 'package:story_saver_video_downloader/providers/xhr_stream_provider.dart';
@@ -36,7 +38,7 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
 
   @override
   Widget build(BuildContext context) {
-    const initialUrl = "https://www.instagram.com/sergigarciiaa";
+    const initialUrl = "https://www.instagram.com/";
 
     return InAppWebView(
       key: webViewKey,
@@ -74,25 +76,29 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
     // Update navigation state
     updateNavigationState(ref, historyUrl);
 
-    // Wait until the page is fully loaded
-    await Future.delayed(const Duration(seconds: 3));
+    final navigationState = ref.read(navigationStateProvider);
 
-    // Set the coordinate where are the posts
-    await controller.evaluateJavascript(source: """
-  (function() {
-      const element = document.querySelector("main > div > div:nth-child(4)");
-      if (element) {
-          const yPos = element.getBoundingClientRect().top + window.scrollY;
-          return yPos
-      }
-  })()
-  """).then((value) {
-      ref.read(initialYPositionProvider.notifier).state = (value is double)
-          ? value
-          : (value is int)
-              ? value.toDouble()
-              : 0.0;
-    });
+    if (navigationState == NavigationState.profile) {
+      // Wait until the page is fully loaded
+      await Future.delayed(const Duration(seconds: 3));
+
+      // Set the coordinate where are the posts
+      await controller.evaluateJavascript(source: """
+      (function() {
+          const element = document.querySelector("main > div > div:nth-child(4)");
+          if (element) {
+              const yPos = element.getBoundingClientRect().top + window.scrollY;
+              return yPos
+          }
+      })()
+      """).then((value) {
+        ref.read(initialYPositionProvider.notifier).state = (value is double)
+            ? value
+            : (value is int)
+                ? value.toDouble()
+                : 0.0;
+      });
+    }
   }
 
   void onWebViewCreated(InAppWebViewController controller) {
