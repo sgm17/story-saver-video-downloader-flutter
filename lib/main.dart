@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:story_saver_video_downloader/screens/history_screen/history_screen.dart';
 import 'package:story_saver_video_downloader/screens/home_screen/home_screen.dart';
 
 void main() {
@@ -33,10 +35,11 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
+        textTheme: GoogleFonts.robotoTextTheme(),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home: const HistoryScreen(),
     );
   }
 }
