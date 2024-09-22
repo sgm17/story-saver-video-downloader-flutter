@@ -49,6 +49,11 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
       onUpdateVisitedHistory: onUpdateVisitedHistory,
       onWebViewCreated: onWebViewCreated,
       onLoadStop: onLoadStop,
+      onLoadResource: (controller, resource) {
+        if (resource.url.toString().contains(".mp4")) {
+          ref.read(xhrStreamProvider).add(resource.url.toString());
+        }
+      },
     );
   }
 
@@ -108,8 +113,8 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
     webViewController?.addJavaScriptHandler(
       handlerName: 'interceptedXHR',
       callback: (args) {
-        final String data = args[0];
-        ref.read(xhrStreamProvider).add(data);
+        // final String data = args[0];
+        // ref.read(xhrStreamProvider).add(data);
       },
     );
 
