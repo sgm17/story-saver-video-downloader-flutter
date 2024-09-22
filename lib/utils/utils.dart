@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:story_saver_video_downloader/models/navigation_state.dart';
 import 'package:story_saver_video_downloader/providers/code_provider.dart';
+import 'package:story_saver_video_downloader/providers/img_index_provider.dart';
 import 'package:story_saver_video_downloader/providers/navigation_state_provider.dart';
 import 'package:story_saver_video_downloader/providers/nodes_provider.dart';
 
@@ -57,5 +58,16 @@ void updateNavigationState(WidgetRef ref, String url) {
       // Set the code navigation state
       ref.read(navigationStateProvider.notifier).state = NavigationState.post;
     }
+  }
+
+  // Parse the URL
+  Uri uri = Uri.parse(url);
+
+  // Extract the 'img_index' query parameter
+  String? imgIndex = uri.queryParameters['img_index'];
+
+  // Check if the 'img_index' parameter exists and print it
+  if (imgIndex != null) {
+    ref.read(imgIndexProvider.notifier).state = int.parse(imgIndex) - 1;
   }
 }

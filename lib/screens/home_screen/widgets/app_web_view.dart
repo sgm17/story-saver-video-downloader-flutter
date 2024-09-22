@@ -7,12 +7,11 @@ import 'package:story_saver_video_downloader/providers/scroll_y_provider.dart';
 import 'package:story_saver_video_downloader/providers/history_provider.dart';
 import 'package:story_saver_video_downloader/providers/nodes_provider.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:story_saver_video_downloader/utils/utils.dart';
 import 'package:story_saver_video_downloader/models/node.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:convert';
-
-import 'package:story_saver_video_downloader/utils/utils.dart';
 
 class AppWebView extends ConsumerStatefulWidget {
   const AppWebView({super.key});
@@ -164,9 +163,13 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
               var responsePromise = originalFetch.apply(this, arguments);
 
               responsePromise.then(function(response) {
-                  if (requestUrl.includes('https://instagram.fzrh5-1.fna.fbcdn.net/')) {
+                  if (requestUrl.includes('instagram.fbcn7-2.fna.fbcdn.net')) {
                       window.flutter_inappwebview.callHandler('interceptedXHR', requestUrl);
-                      //console.log('Intercepted request:', requestUrl);
+                      console.log('Intercepted Fetch URL with bytestart and byteend:', requestUrl);
+                      
+                      response.clone().text().then(function(body) {
+                        //console.log('Fetch Response Body:', body);
+                      });
                   }
                   return response;
               }).catch(function(error) {
@@ -179,6 +182,12 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
           XMLHttpRequest.prototype.open = function() {
               var xhr = this;
               this.addEventListener('load', function() {
+                  if (xhr.responseURL.includes('instagram.fbcn7-2.fna.fbcdn.net')) {
+                      //console.log('Intercepted XHR URL with bytestart and byteend:', xhr.responseURL);
+                      console.log('XHR Response Body:', xhr.responseText);
+                  }
+
+
                   var currentUrl = window.location.href;
 
                   if (currentUrl === 'https://www.instagram.com/') {
