@@ -1,9 +1,10 @@
+import 'package:story_saver_video_downloader/providers/edges_provider.dart';
 import 'package:story_saver_video_downloader/providers/initial_y_position_provider.dart';
 import 'package:story_saver_video_downloader/providers/overflowed_rows_provider.dart';
 import 'package:story_saver_video_downloader/providers/scroll_y_provider.dart';
-import 'package:story_saver_video_downloader/providers/nodes_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:story_saver_video_downloader/providers/username_provider.dart';
 
 class InstagramOverlay extends ConsumerWidget {
   const InstagramOverlay({super.key});
@@ -12,7 +13,14 @@ class InstagramOverlay extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final initialYPosition = ref.watch(initialYPositionProvider);
     final scrollY = ref.watch(scrollYProvider);
-    final nodes = ref.watch(nodesProvider);
+    final edges = ref.watch(edgesProvider);
+    final username = ref.watch(usernameProvider);
+
+    final nodes = edges.where((e) => e.username == username).firstOrNull?.nodes;
+
+    if (nodes == null) {
+      return const SizedBox.shrink();
+    }
 
     final totalWidth = MediaQuery.of(context).size.width;
     final containerWidth = (totalWidth - (2 * 3)) / 3;

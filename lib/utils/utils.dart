@@ -1,17 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:story_saver_video_downloader/models/navigation_state.dart';
 import 'package:story_saver_video_downloader/providers/code_provider.dart';
+import 'package:story_saver_video_downloader/providers/edges_provider.dart';
 import 'package:story_saver_video_downloader/providers/img_index_provider.dart';
 import 'package:story_saver_video_downloader/providers/navigation_state_provider.dart';
-import 'package:story_saver_video_downloader/providers/nodes_provider.dart';
+import 'package:story_saver_video_downloader/providers/username_provider.dart';
 
 void updateNavigationState(WidgetRef ref, String url) {
-  final nodes = ref.read(nodesProvider);
-
   if (url == "https://www.instagram.com/") {
     // Set the navigation state to the initial state
     ref.read(navigationStateProvider.notifier).state = NavigationState.idle;
-    ref.read(nodesProvider.notifier).state = [];
     return;
   }
 
@@ -33,30 +31,27 @@ void updateNavigationState(WidgetRef ref, String url) {
   final username = match?.group(1);
 
   if (username != null && username != "p") {
-    // Updaete the navigation state
+    // Update the username and notify others
+    ref.read(usernameProvider.notifier).state = username;
+    // Update the navigation state
     ref.read(navigationStateProvider.notifier).state = NavigationState.profile;
-
-    // Get the username from the nodes
-    if (nodes.isNotEmpty) {
-      final newUsername = nodes.first.user.username;
-
-      // Compare the username
-      if (username != newUsername) {
-        // Initialize the array if the usernames doesn't match
-        ref.read(nodesProvider.notifier).state = [];
-      }
-    }
   }
 
   if (code != null) {
-    final carousel = nodes.any((element) => element.code == code);
+    final edges = ref.read(edgesProvider);
+    final username = ref.read(usernameProvider);
+    final nodes = edges.where((e) => e.username == username).firstOrNull;
 
-    if (carousel) {
-      // Set the code of the node
-      ref.read(codeProvider.notifier).state = code;
+    if (nodes != null) {
+      final codeExists = nodes.nodes.any((e) => e.code == code);
 
-      // Set the code navigation state
-      ref.read(navigationStateProvider.notifier).state = NavigationState.post;
+      if (codeExists) {
+        // Set the code of the node
+        ref.read(codeProvider.notifier).state = code;
+
+        // Set the code navigation state
+        ref.read(navigationStateProvider.notifier).state = NavigationState.post;
+      }
     }
   }
 
@@ -69,5 +64,7 @@ void updateNavigationState(WidgetRef ref, String url) {
   // Check if the 'img_index' parameter exists and print it
   if (imgIndex != null) {
     ref.read(imgIndexProvider.notifier).state = int.parse(imgIndex) - 1;
+  } else {
+    ref.read(imgIndexProvider.notifier).state = 0;
   }
 }

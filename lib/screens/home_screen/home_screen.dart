@@ -1,6 +1,5 @@
 import 'package:story_saver_video_downloader/models/navigation_state.dart';
 import 'package:story_saver_video_downloader/providers/navigation_state_provider.dart';
-import 'package:story_saver_video_downloader/providers/nodes_provider.dart';
 import 'package:story_saver_video_downloader/screens/home_screen/widgets/instagram_overlay.dart';
 import 'package:story_saver_video_downloader/screens/home_screen/widgets/node_download.dart';
 import 'package:story_saver_video_downloader/screens/home_screen/widgets/app_web_view.dart';
@@ -13,7 +12,6 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final navigation = ref.watch(navigationStateProvider);
-    final nodes = ref.watch(nodesProvider);
 
     return Scaffold(
         body: SafeArea(
@@ -33,14 +31,6 @@ class HomeScreen extends ConsumerWidget {
             children: [
               Text(
                 navigation.name.toString(),
-                style: const TextStyle(color: Colors.red),
-              ),
-              Text(
-                nodes.length.toString(),
-                style: const TextStyle(color: Colors.red),
-              ),
-              Text(
-                nodes.isNotEmpty ? nodes.first.user.username.toString() : "",
                 style: const TextStyle(color: Colors.red),
               ),
             ],

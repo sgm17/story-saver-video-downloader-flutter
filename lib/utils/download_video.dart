@@ -1,25 +1,32 @@
 import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'dart:io';
 
-Future<void> downloadFileUsingHttp(String url) async {
-  final headers = {
-    "User-Agent":
-        "Mozilla/5.0 (Linux; Android 10; Pixel 3 XL) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Mobile Safari/537.36",
-    "Referer": "https://www.instagram.com/",
-  };
-  var response = await http.get(Uri.parse("${url}_"), headers: headers);
+Future<void> downloadVideoFromUrl(String url, Function callback) async {
+  Dio dio = Dio();
 
-  if (response.statusCode == 200) {
-    Directory? downloadsDirectory = await getExternalStorageDirectory();
-    String filePath = '${downloadsDirectory!.path}/downloaded_video.mp4';
+  try {
+    // Get the external storage directory (Downloads folder)
+    Directory? downloadsDir = Directory('/storage/emulated/0/Download');
 
-    // Write the response body to a file
-    File file = File(filePath);
-    await file.writeAsBytes(response.bodyBytes);
+    if (!downloadsDir.existsSync()) {
+      downloadsDir = await getExternalStorageDirectory();
+    }
+
+    String filePath =
+        '${downloadsDir!.path}/${DateTime.now().millisecondsSinceEpoch}.mp4'; // Define file name
+
+    // Start downloading the video
+    await dio.download(url, filePath, onReceiveProgress: (received, total) {
+      if (total != -1) {
+        final progress = (received / total * 100).toStringAsFixed(0);
+        callback(progress);
+        print('Download progress: $progress%');
+      }
+    });
 
     print('Download complete: Video saved to $filePath');
-  } else {
-    print('Download failed: ${response.statusCode}');
+  } catch (e) {
+    print('Download failed: $e');
   }
 }

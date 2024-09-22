@@ -1,3 +1,4 @@
+import 'package:story_saver_video_downloader/models/edge.dart';
 import 'package:story_saver_video_downloader/models/navigation_state.dart';
 import 'package:story_saver_video_downloader/providers/navigation_state_provider.dart';
 import 'package:story_saver_video_downloader/providers/web_view_controller_provider.dart';
@@ -5,7 +6,7 @@ import 'package:story_saver_video_downloader/providers/initial_y_position_provid
 import 'package:story_saver_video_downloader/providers/xhr_stream_provider.dart';
 import 'package:story_saver_video_downloader/providers/scroll_y_provider.dart';
 import 'package:story_saver_video_downloader/providers/history_provider.dart';
-import 'package:story_saver_video_downloader/providers/nodes_provider.dart';
+import 'package:story_saver_video_downloader/providers/edges_provider.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:story_saver_video_downloader/utils/utils.dart';
 import 'package:story_saver_video_downloader/models/node.dart';
@@ -45,24 +46,27 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
       initialSettings: InAppWebViewSettings(
         javaScriptEnabled: true,
       ),
-      onScrollChanged: onScrollChanged,
       onUpdateVisitedHistory: onUpdateVisitedHistory,
       onWebViewCreated: onWebViewCreated,
+      onScrollChanged: onScrollChanged,
+      onLoadResource: onLoadResource,
       onLoadStop: onLoadStop,
-      onLoadResource: (controller, resource) {
-        if (resource.url.toString().contains(".mp4")) {
-          ref.read(xhrStreamProvider).add(resource.url.toString());
-        }
-      },
     );
+  }
+
+  void onLoadResource(
+      InAppWebViewController controller, LoadedResource resource) {
+    if (resource.url.toString().contains(".mp4")) {
+      ref.read(xhrStreamProvider).add(resource.url.toString());
+    }
   }
 
   void onScrollChanged(InAppWebViewController controller, int x, int y) async {
     await controller.evaluateJavascript(source: """
-  (function() {
-      return window.scrollY;
-  })()
-""").then((newScrollY) {
+    (function() {
+          return window.scrollY;
+      })()
+    """).then((newScrollY) {
       ref.read(scrollYProvider.notifier).state = (newScrollY is double)
           ? newScrollY
           : (newScrollY is int)
@@ -83,25 +87,35 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
     final navigationState = ref.read(navigationStateProvider);
 
     if (navigationState == NavigationState.profile) {
-      // Wait until the page is fully loaded
-      await Future.delayed(const Duration(seconds: 3));
-
-      // Set the coordinate where are the posts
+      while (await controller.isLoading()) {
+        await Future.delayed(Duration(seconds: 3));
+      }
       await controller.evaluateJavascript(source: """
-      (function() {
-          const element = document.querySelector("main > div > div:nth-child(4)");
-          if (element) {
-              const yPos = element.getBoundingClientRect().top + window.scrollY;
-              return yPos
-          }
-      })()
-      """).then((value) {
-        ref.read(initialYPositionProvider.notifier).state = (value is double)
-            ? value
-            : (value is int)
-                ? value.toDouble()
-                : 0.0;
-      });
+        // Immediately call the function and return the result
+        function waitForElement(selector, timeout) {
+            return new Promise((resolve, reject) => {
+                const startTime = Date.now();
+                const interval = setInterval(() => {
+                    const element = document.querySelector(selector);
+                    if (element) {
+                        const yPos = element.getBoundingClientRect().top + window.scrollY;
+                        clearInterval(interval);
+                        resolve(yPos + 1); // Return the position
+                    }
+
+                    if (Date.now() - startTime > timeout) {
+                        clearInterval(interval);
+                        reject("Element not found within timeout");
+                    }
+                }, 100);
+            });
+        }
+
+        (async function() {
+            const result = await waitForElement("main > div > hr:nth-child(3)", 10000); // 10 seconds timeout
+            window.flutter_inappwebview.callHandler('initialYPosition', result);        
+        })();
+      """);
     }
   }
 
@@ -111,12 +125,16 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
     final webViewController = ref.read(webViewControllerProvider);
 
     webViewController?.addJavaScriptHandler(
-      handlerName: 'interceptedXHR',
-      callback: (args) {
-        // final String data = args[0];
-        // ref.read(xhrStreamProvider).add(data);
-      },
-    );
+        handlerName: "initialYPosition",
+        callback: (args) {
+          final value = args[0];
+
+          ref.read(initialYPositionProvider.notifier).state = value is double
+              ? value
+              : (value is int)
+                  ? value.toDouble()
+                  : 0.0;
+        });
 
     webViewController?.addJavaScriptHandler(
       handlerName: 'interceptedGraphQl',
@@ -130,20 +148,35 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
         final List edges = jsonObject["data"]
                 ["xdt_api__v1__feed__user_timeline_graphql_connection"]["edges"]
             as List;
+
         List<Node> nodes = edges.map((e) => Node.fromJson(e['node'])).toList();
 
-        final oldNodes = ref.read(nodesProvider);
+        if (nodes.isNotEmpty) {
+          // Check that the nodes are not empty
+          final oldEdges = ref.read(edgesProvider);
+          final username = nodes.first.user.username;
+          final oldEdgeUsername =
+              oldEdges.where((e) => e.username == username).firstOrNull;
 
-        if (oldNodes.isEmpty) {
-          // If oldNodes is empty, just set the new nodes.
-          ref.read(nodesProvider.notifier).state = nodes;
-        } else {
-          // Check if any of the new nodes already exist in the oldNodes based on 'code'.
-          final alreadyExists = oldNodes.any((oldNode) =>
-              nodes.any((newNode) => newNode.code == oldNode.code));
+          if (oldEdgeUsername != null) {
+            // Check if the new nodes already exists in the oldEdgeUsername based on code.
+            final alreadyExists = oldEdgeUsername.nodes.any((oldNode) =>
+                nodes.any((newNode) => newNode.code == oldNode.code));
 
-          if (!alreadyExists) {
-            ref.read(nodesProvider.notifier).state = [...nodes, ...oldNodes];
+            if (!alreadyExists) {
+              // If the new nodes entry doesn't exist for a username
+              final newNodes = [...nodes, ...oldEdgeUsername.nodes];
+              final newEdges = oldEdges
+                  .map((e) =>
+                      e.username == username ? e.copyWith(nodes: newNodes) : e)
+                  .toList();
+
+              ref.read(edgesProvider.notifier).state = newEdges;
+            }
+          } else {
+            // Add the first node entry
+            final newEdges = Edge(username: username, nodes: nodes);
+            ref.read(edgesProvider.notifier).state = [newEdges, ...oldEdges];
           }
         }
 
@@ -162,49 +195,22 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
   void onLoadStop(InAppWebViewController controller, WebUri? url) async {
     await controller.evaluateJavascript(source: """
       (function() {                                      
-          var originalFetch = window.fetch;
-          window.fetch = function() {
-              var requestUrl = arguments[0];
-              var responsePromise = originalFetch.apply(this, arguments);
-
-              responsePromise.then(function(response) {
-                  if (requestUrl.includes('instagram.fbcn7-2.fna.fbcdn.net')) {
-                      window.flutter_inappwebview.callHandler('interceptedXHR', requestUrl);
-                      console.log('Intercepted Fetch URL with bytestart and byteend:', requestUrl);
-                      
-                      response.clone().text().then(function(body) {
-                        //console.log('Fetch Response Body:', body);
-                      });
-                  }
-                  return response;
-              }).catch(function(error) {
-                  console.error('Fetch Error:', error);
-              });
-              return responsePromise;
-          };
-          
           var originalXHROpen = XMLHttpRequest.prototype.open;
           XMLHttpRequest.prototype.open = function() {
               var xhr = this;
               this.addEventListener('load', function() {
-                  if (xhr.responseURL.includes('instagram.fbcn7-2.fna.fbcdn.net')) {
-                      //console.log('Intercepted XHR URL with bytestart and byteend:', xhr.responseURL);
-                      console.log('XHR Response Body:', xhr.responseText);
-                  }
-
-
                   var currentUrl = window.location.href;
 
                   if (currentUrl === 'https://www.instagram.com/') {
                     // Don't save nodes from the home page
-                    return false;
+                    return;
                   }
 
                   if (xhr.responseURL.includes('https://www.instagram.com/graphql/query')) {
                     var responseJson = JSON.parse(xhr.responseText);
 
                     if (!responseJson.data.hasOwnProperty('xdt_api__v1__feed__user_timeline_graphql_connection')) {
-                      return false;
+                      return;
                     }
 
                     // Convert to string if necessary and chunk it
@@ -216,7 +222,6 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
                     for (var i = 0; i < totalChunks; i++) {
                       var chunk = responseString.slice(i * chunkSize, (i + 1) * chunkSize);
                       chunks.push(chunk)
-                      // console.log('Intercepted Graphql Query:', responseJson);
                     }
                     window.flutter_inappwebview.callHandler('interceptedGraphQl', chunks);
                   }
