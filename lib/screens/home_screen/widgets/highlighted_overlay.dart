@@ -26,6 +26,12 @@ class _HighlightedOverlayState extends ConsumerState<HighlightedOverlay> {
     final usernameHighlights =
         highlights.where((e) => e.username == username).firstOrNull;
 
+    if (highlightNode?.user.username != username) {
+      setState(() {
+        highlightNode = null;
+      });
+    }
+
     if (usernameHighlights == null) {
       return const SizedBox.shrink();
     }
@@ -69,12 +75,24 @@ class _HighlightedOverlayState extends ConsumerState<HighlightedOverlay> {
                 value: highlightNode,
                 items: items,
                 dropdownColor: AppColors.black,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
                 onChanged: (value) {
                   setState(() {
                     highlightNode = value;
                   });
-                })
+                }),
+            const SizedBox(
+              width: 8,
+            ),
+            if (highlightNode?.media == null)
+              Container(
+                padding: const EdgeInsets.all(6),
+                color: Colors.black,
+                child: const Text(
+                  "No data. Enter the\nstory to download it",
+                  style: TextStyle(color: Colors.white, fontSize: 14),
+                ),
+              )
           ],
         ),
       ),

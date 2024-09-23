@@ -225,10 +225,11 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
 
               if (oldEdgeUsername != null) {
                 // Check if the new nodes already exists in the oldEdgeUsername based on code.
-                final alreadyExists = oldEdgeUsername.nodes.any((oldNode) =>
-                    nodes.any((newNode) => newNode.code == oldNode.code));
+                final usernameAlreadyExists = oldEdgeUsername.nodes.any(
+                    (oldNode) =>
+                        nodes.any((newNode) => newNode.code == oldNode.code));
 
-                if (!alreadyExists) {
+                if (!usernameAlreadyExists) {
                   // If the new nodes entry doesn't exist for a username
                   final newNodes = [...nodes, ...oldEdgeUsername.nodes];
                   final newEdges = oldEdges
@@ -259,9 +260,10 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
 
             if (carouselMedia != null && carouselMedia.isNotEmpty) {
               final stories = ref.read(storiesProvider);
-              final alreadyStored = stories.any((e) => e.username == username);
+              final usernameAlreadyStored =
+                  stories.any((e) => e.username == username);
 
-              if (!alreadyStored) {
+              if (!usernameAlreadyStored) {
                 final newStory = Stories(
                     username: ref.read(usernameProvider), media: carouselMedia);
                 ref.read(storiesProvider.notifier).state = [
