@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:story_saver_video_downloader/screens/home_screen/home_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:story_saver_video_downloader/screens/draggable_widget.dart';
-import 'package:story_saver_video_downloader/screens/history_screen/history_screen.dart';
-import 'package:story_saver_video_downloader/screens/home_screen/home_screen.dart';
-import 'package:story_saver_video_downloader/screens/settings_screen/settings_screen.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,11 +13,12 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Story Saver',
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: GoogleFonts.robotoTextTheme(),
