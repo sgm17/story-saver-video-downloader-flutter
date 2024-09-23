@@ -14,7 +14,6 @@ class Node {
   final int likeCount;
   final int commentCount;
   final List<CarouselMedia>? carouselMedia;
-  final String? title;
 
   Node({
     required this.code,
@@ -27,25 +26,24 @@ class Node {
     required this.likeCount,
     required this.commentCount,
     required this.carouselMedia,
-    this.title,
   });
 
   factory Node.fromJson(Map<String, dynamic> json) {
     return Node(
-        code: json['code'],
-        pk: json['pk'],
-        id: json['id'],
-        takenAt: json['taken_at'],
-        imageVersions: (json['image_versions2']['candidates'] as List)
-            .map((e) => ImageCandidate.fromJson(e))
-            .toList(),
-        user: User.fromJson(json['user']),
-        owner: Owner.fromJson(json['owner']),
-        likeCount: json['like_count'],
-        commentCount: json['comment_count'],
-        carouselMedia: (json['carousel_media'] as List?)
-            ?.map((e) => CarouselMedia.fromJson(e))
-            .toList(),
-        title: json['title']);
+      code: json['code'],
+      pk: json['pk'],
+      id: json['id'],
+      takenAt: json['taken_at'],
+      imageVersions: (json['image_versions2']['candidates'] as List)
+          .map((e) => ImageCandidate.fromJson(e))
+          .toList(),
+      user: User.fromJson(json['user']),
+      owner: Owner.fromJson(json['owner']),
+      likeCount: json['like_count'],
+      commentCount: json['comment_count'],
+      carouselMedia: (json['carousel_media'] as List?)
+          ?.map((e) => CarouselMedia.fromJson(e))
+          .toList(),
+    );
   }
 }

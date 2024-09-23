@@ -1,15 +1,15 @@
 // User Class
 class User {
-  final String pk;
+  final String? pk;
   final String username;
-  final String profilePicUrl;
-  final bool isPrivate;
+  final String? profilePicUrl;
+  final bool? isPrivate;
 
   User({
-    required this.pk,
+    this.pk,
     required this.username,
-    required this.profilePicUrl,
-    required this.isPrivate,
+    this.profilePicUrl,
+    this.isPrivate,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
