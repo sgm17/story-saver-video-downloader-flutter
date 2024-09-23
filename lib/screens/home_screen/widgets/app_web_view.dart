@@ -1,6 +1,7 @@
 import 'package:story_saver_video_downloader/models/edge.dart';
 import 'package:story_saver_video_downloader/models/navigation_state.dart';
 import 'package:story_saver_video_downloader/providers/highlighted_y_position_provider.dart';
+import 'package:story_saver_video_downloader/providers/is_story_active_provider.dart';
 import 'package:story_saver_video_downloader/providers/navigation_state_provider.dart';
 import 'package:story_saver_video_downloader/providers/story_y_position_provider.dart';
 import 'package:story_saver_video_downloader/providers/web_view_controller_provider.dart';
@@ -114,8 +115,6 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
             const result = await waitForElement("main > div > hr:nth-child(3)", 10000); // 10 seconds timeout
             window.flutter_inappwebview.callHandler('initialYPosition', result);
 
-            const storyElement = await waitForElement("main > div > header:nth-child(1) > section:nth-child(1)", 10000);
-            window.flutter_inappwebview.callHandler('storyYPosition', result);
 
             var isMyProfile = false;
             const element = document.querySelector("main > div > header:nth-child(1) > section:nth-child(1) > div > div > div > div");
@@ -123,10 +122,15 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
               isMyProfile = true
             }
 
+            const storyElement = await waitForElement("main > div > header:nth-child(1) > section:nth-child(1) > div", 10000);
+            window.flutter_inappwebview.callHandler('storyYPosition', isMyProfile ? storyElement + 100 : storyElement);
+
+            var isActiveStory = false;
             const activeStory = document.querySelector("main > div > header:nth-child(1) > section:nth-child(1) > div > div > canvas");
             if(activeStory){
-              console.log("Active story!")
+              isActiveStory = true
             }
+            window.flutter_inappwebview.callHandler('isActiveStory', isActiveStory);
 
             const highlighted = await waitForElement("main > div > header:nth-child(1) > section:nth-child(6) > div > div > div > div > div > ul > li:nth-child(2) > div > div > div > div:nth-child(1)")
             window.flutter_inappwebview.callHandler('highlightedYPosition', highlighted);
@@ -175,6 +179,14 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
                   : (value is int)
                       ? value.toDouble()
                       : 0.0;
+        });
+    webViewController?.addJavaScriptHandler(
+        handlerName: "isActiveStory",
+        callback: (args) {
+          final value = args[0];
+          if (value is bool) {
+            ref.read(isStoryActiveProvider.notifier).state = value;
+          }
         });
 
     webViewController?.addJavaScriptHandler(
