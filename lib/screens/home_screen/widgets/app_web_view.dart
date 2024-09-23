@@ -295,6 +295,49 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
                 ];
               }
             }
+          case "xdt_viewer":
+            final carouselMediaJson = jsonObject["data"]
+                    ["xdt_api__v1__feed__reels_media__connection"]["edges"][0]
+                ["node"]["items"] as List?;
+
+            final carouselMedia = carouselMediaJson
+                ?.map((e) => CarouselMedia.fromJson(e))
+                .toList();
+
+            final title = jsonObject["data"]
+                    ["xdt_api__v1__feed__reels_media__connection"]["edges"][0]
+                ["node"]["title"];
+
+            final username = ref.read(usernameProvider);
+            final highlights = ref.read(highlightsProvider);
+
+            final node =
+                highlights.where((e) => e.username == username).firstOrNull;
+
+            if (node != null) {
+              final stories =
+                  node.node.where((e) => e.title == title).firstOrNull;
+
+              if (stories != null) {
+                // Create an updated version of the story with the new media
+                final updatedStory = stories.copyWith(newMedia: carouselMedia);
+
+                // Create an updated version of the node with the updated story
+                final updatedNode = node.copyWith(
+                    newNode: node.node
+                        .map((e) => e.title == title ? updatedStory : e)
+                        .toList());
+
+                // Update the highlights list with the updated node
+                final newHighlights = highlights
+                    .map((e) => e.username == username ? updatedNode : e)
+                    .toList();
+
+                // Update the state of the highlightsProvider with the new highlights list
+                ref.read(highlightsProvider.notifier).state = newHighlights;
+              }
+            }
+
             break;
         }
         return null;

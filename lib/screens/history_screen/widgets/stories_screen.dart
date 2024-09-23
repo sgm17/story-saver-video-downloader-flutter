@@ -21,6 +21,5 @@ class StoriesScreen extends StatelessWidget {
             filename: 'hola.mp4',
           );
         });
-    ;
   }
 }

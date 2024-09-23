@@ -60,7 +60,7 @@ class DraggableWidget extends StatelessWidget {
             child: ListView.separated(
               itemCount: numberElements,
               itemBuilder: (context, index) {
-                return BatchItem(
+                return const BatchItem(
                     image: "assets/images/hq720.jpg",
                     filename: "172447384877328",
                     type: MediaType.picture,
@@ -68,7 +68,7 @@ class DraggableWidget extends StatelessWidget {
                     height: 1080);
               },
               separatorBuilder: (context, index) {
-                return SizedBox(height: 12);
+                return const SizedBox(height: 12);
               },
             ),
           ),

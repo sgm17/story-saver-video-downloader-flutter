@@ -21,7 +21,6 @@ class _AppSettingState extends State<AppSetting> {
   late FlutterLocalNotificationsPlugin state;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     state = FlutterLocalNotificationsPlugin();
     const AndroidInitializationSettings initializationSettingsAndroid =

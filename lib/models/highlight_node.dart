@@ -22,4 +22,15 @@ class HighlightNode {
         title: json['title'],
         image: json['cover_media']['cropped_image_version']['url']);
   }
+
+  // Implement copyWith for immutability
+  HighlightNode copyWith({List<CarouselMedia>? newMedia}) {
+    return HighlightNode(
+      id: id,
+      user: user,
+      title: title,
+      image: image,
+      media: newMedia ?? media,
+    );
+  }
 }

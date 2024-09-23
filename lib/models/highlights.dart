@@ -5,4 +5,11 @@ class Highlights {
   final List<HighlightNode> node;
 
   Highlights({required this.username, required this.node});
+
+  Highlights copyWith({List<HighlightNode>? newNode}) {
+    return Highlights(
+      username: username,
+      node: newNode ?? node,
+    );
+  }
 }

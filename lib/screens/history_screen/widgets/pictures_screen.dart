@@ -9,13 +9,13 @@ class PicturesScreen extends StatelessWidget {
     return ListView.separated(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         itemBuilder: (context, index) {
-          return PictureItem(
+          return const PictureItem(
             image: "assets/images/hq720.jpg",
             filename: 'hola.mp4',
           );
         },
         separatorBuilder: (context, index) {
-          return SizedBox(
+          return const SizedBox(
             height: 16,
           );
         },

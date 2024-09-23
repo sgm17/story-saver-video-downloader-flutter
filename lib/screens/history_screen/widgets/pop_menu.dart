@@ -19,11 +19,6 @@ class PopMenu extends StatefulWidget {
 }
 
 class _PopMenuState extends State<PopMenu> {
-  Set<AnimationStyles> _animationStyleSelection = <AnimationStyles>{
-    AnimationStyles.defaultStyle
-  };
-  AnimationStyle? _animationStyle;
-
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<Menu>(
