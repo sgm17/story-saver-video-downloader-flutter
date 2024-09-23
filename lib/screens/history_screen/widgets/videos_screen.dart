@@ -14,7 +14,7 @@ class VideosScreen extends StatelessWidget {
           mainAxisSpacing: 16,
           childAspectRatio: 2 / 3,
         ),
-        itemCount: 2,
+        itemCount: 12,
         itemBuilder: (context, index) {
           return const VideoItem(
             image: "assets/images/hq720.jpg",
