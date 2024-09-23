@@ -1,8 +1,10 @@
 import 'package:story_saver_video_downloader/models/carousel.dart';
 import 'package:story_saver_video_downloader/models/edge.dart';
+import 'package:story_saver_video_downloader/models/highlights.dart';
 import 'package:story_saver_video_downloader/models/navigation_state.dart';
 import 'package:story_saver_video_downloader/models/stories.dart';
 import 'package:story_saver_video_downloader/providers/highlighted_y_position_provider.dart';
+import 'package:story_saver_video_downloader/providers/highlights_provider.dart';
 import 'package:story_saver_video_downloader/providers/is_story_active_provider.dart';
 import 'package:story_saver_video_downloader/providers/navigation_state_provider.dart';
 import 'package:story_saver_video_downloader/providers/stories_provider.dart';
@@ -92,18 +94,6 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
     updateNavigationState(ref, historyUrl);
 
     final navigationState = ref.read(navigationStateProvider);
-    final stories = ref.read(storiesProvider);
-    final username = ref.read(usernameProvider);
-
-    if (navigationState == NavigationState.profile &&
-        ref.read(isStoryActiveProvider) &&
-        !stories.any((e) => e.username == username)) {
-      await controller.loadUrl(
-          urlRequest: URLRequest(
-              url: WebUri(
-                  "https://www.instagram.com/stories/${ref.read(usernameProvider)}")));
-      await controller.goBack();
-    }
 
     if (navigationState == NavigationState.profile) {
       await controller.evaluateJavascript(source: """
@@ -214,22 +204,51 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
 
         final jsonObject = jsonDecode(jsonString) as Map<String, dynamic>;
 
+        // Edges Provider
         final edges = jsonObject["data"]
                 ["xdt_api__v1__feed__user_timeline_graphql_connection"]["edges"]
             as List?;
 
         final nodes = edges?.map((e) => Node.fromJson(e['node'])).toList();
 
+        // Stories Provider
         final items = jsonObject["data"]["xdt_api__v1__feed__reels_media"]
             ["reels_media"]["items"] as List?;
+
         final carouselMedia =
             items?.map((e) => CarouselMedia.fromJson(e)).toList();
+
+        // Highlights Provider
+        final highlightEdges =
+            jsonObject["data"]["highlights"]["edges"] as List?;
+        final highlightNodes =
+            highlightEdges?.map((e) => Node.fromJson(e["node"])).toList();
+
+        final username = ref.read(usernameProvider);
+
+        if (highlightNodes != null && highlightNodes.isNotEmpty) {
+          final highlights = ref.read(highlightsProvider);
+          final alreadyStored = highlights.any((e) => e.username == username);
+
+          if (!alreadyStored) {
+            final newHighlights =
+                Highlights(username: username, node: highlightNodes);
+            ref.read(highlightsProvider.notifier).state = [
+              newHighlights,
+              ...highlights
+            ];
+          }
+        }
+
         if (carouselMedia != null && carouselMedia.isNotEmpty) {
           final stories = ref.read(storiesProvider);
-          ref.read(storiesProvider.notifier).state = [
-            Stories(username: ref.read(usernameProvider), media: carouselMedia),
-            ...stories
-          ];
+          final alreadyStored = stories.any((e) => e.username == username);
+
+          if (!alreadyStored) {
+            final newStory = Stories(
+                username: ref.read(usernameProvider), media: carouselMedia);
+            ref.read(storiesProvider.notifier).state = [newStory, ...stories];
+          }
         }
 
         if (nodes != null && nodes.isNotEmpty) {
