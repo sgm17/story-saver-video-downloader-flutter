@@ -43,20 +43,30 @@ class _HighlightedOverlayState extends ConsumerState<HighlightedOverlay> {
         .toList();
 
     return Transform.translate(
-      offset: Offset(10, highlightedYPosition - scrollY + 16 + 56),
+      offset: Offset(10, highlightedYPosition - scrollY + 32 + 56),
       child: SizedBox(
         height: 56,
         child: Row(
           children: [
-            Container(
+            if (highlightNode == null)
+              Container(
+                  height: 56,
+                  width: 56,
+                  decoration: const BoxDecoration(
+                      color: Colors.white, shape: BoxShape.circle))
+            else
+              SizedBox(
                 height: 56,
                 width: 56,
-                decoration: const BoxDecoration(
-                    color: Colors.white, shape: BoxShape.circle)),
+                child: ClipOval(
+                  child: Image.network(highlightNode!.image),
+                ),
+              ),
             const SizedBox(
               width: 23,
             ),
             DropdownButton<HighlightNode>(
+                value: highlightNode,
                 items: items,
                 dropdownColor: AppColors.black,
                 style: TextStyle(color: Colors.white),
