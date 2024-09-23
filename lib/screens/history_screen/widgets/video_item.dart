@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:story_saver_video_downloader/screens/history_screen/widgets/pop_menu.dart';
 
 class VideoItem extends StatelessWidget {
   const VideoItem({super.key, required this.image, required this.filename});
@@ -31,7 +32,7 @@ class VideoItem extends StatelessWidget {
                     fit: BoxFit.cover,
                   ))),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
+            padding: const EdgeInsets.only(left: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -42,12 +43,7 @@ class VideoItem extends StatelessWidget {
                       style: const TextStyle(
                           fontWeight: FontWeight.w400, fontSize: 12)),
                 ),
-                const Flexible(
-                  child: Icon(
-                    Icons.more_vert,
-                    size: 19,
-                  ),
-                )
+                const Flexible(child: PopMenu())
               ],
             ),
           )

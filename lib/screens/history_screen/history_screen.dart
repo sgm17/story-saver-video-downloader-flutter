@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:story_saver_video_downloader/app_colors.dart';
-import 'package:story_saver_video_downloader/screens/history_screen/widgets/video_item.dart';
+import 'package:story_saver_video_downloader/screens/history_screen/widgets/pictures_screen.dart';
+import 'package:story_saver_video_downloader/screens/history_screen/widgets/stories_screen.dart';
 import 'package:story_saver_video_downloader/screens/history_screen/widgets/videos_screen.dart';
+import 'package:story_saver_video_downloader/app_colors.dart';
+import 'package:flutter/material.dart';
 
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
@@ -37,9 +38,9 @@ class HistoryScreen extends StatelessWidget {
                 ]),
             Expanded(
               child: TabBarView(children: [
-                Text("1"),
+                PicturesScreen(),
                 VideosScreen(),
-                Text("3"),
+                StoriesScreen()
               ]),
             )
           ],
