@@ -1,9 +1,13 @@
+import 'package:story_saver_video_downloader/models/carousel.dart';
 import 'package:story_saver_video_downloader/models/edge.dart';
 import 'package:story_saver_video_downloader/models/navigation_state.dart';
+import 'package:story_saver_video_downloader/models/stories.dart';
 import 'package:story_saver_video_downloader/providers/highlighted_y_position_provider.dart';
 import 'package:story_saver_video_downloader/providers/is_story_active_provider.dart';
 import 'package:story_saver_video_downloader/providers/navigation_state_provider.dart';
+import 'package:story_saver_video_downloader/providers/stories_provider.dart';
 import 'package:story_saver_video_downloader/providers/story_y_position_provider.dart';
+import 'package:story_saver_video_downloader/providers/username_provider.dart';
 import 'package:story_saver_video_downloader/providers/web_view_controller_provider.dart';
 import 'package:story_saver_video_downloader/providers/initial_y_position_provider.dart';
 import 'package:story_saver_video_downloader/providers/xhr_stream_provider.dart';
@@ -88,6 +92,18 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
     updateNavigationState(ref, historyUrl);
 
     final navigationState = ref.read(navigationStateProvider);
+    final stories = ref.read(storiesProvider);
+    final username = ref.read(usernameProvider);
+
+    if (navigationState == NavigationState.profile &&
+        ref.read(isStoryActiveProvider) &&
+        !stories.any((e) => e.username == username)) {
+      await controller.loadUrl(
+          urlRequest: URLRequest(
+              url: WebUri(
+                  "https://www.instagram.com/stories/${ref.read(usernameProvider)}")));
+      await controller.goBack();
+    }
 
     if (navigationState == NavigationState.profile) {
       await controller.evaluateJavascript(source: """
@@ -198,13 +214,25 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
 
         final jsonObject = jsonDecode(jsonString) as Map<String, dynamic>;
 
-        final List edges = jsonObject["data"]
+        final edges = jsonObject["data"]
                 ["xdt_api__v1__feed__user_timeline_graphql_connection"]["edges"]
-            as List;
+            as List?;
 
-        List<Node> nodes = edges.map((e) => Node.fromJson(e['node'])).toList();
+        final nodes = edges?.map((e) => Node.fromJson(e['node'])).toList();
 
-        if (nodes.isNotEmpty) {
+        final items = jsonObject["data"]["xdt_api__v1__feed__reels_media"]
+            ["reels_media"]["items"] as List?;
+        final carouselMedia =
+            items?.map((e) => CarouselMedia.fromJson(e)).toList();
+        if (carouselMedia != null && carouselMedia.isNotEmpty) {
+          final stories = ref.read(storiesProvider);
+          ref.read(storiesProvider.notifier).state = [
+            Stories(username: ref.read(usernameProvider), media: carouselMedia),
+            ...stories
+          ];
+        }
+
+        if (nodes != null && nodes.isNotEmpty) {
           // Check that the nodes are not empty
           final oldEdges = ref.read(edgesProvider);
           final username = nodes.first.user.username;
@@ -262,7 +290,10 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
                   if (xhr.responseURL.includes('https://www.instagram.com/graphql/query')) {
                     var responseJson = JSON.parse(xhr.responseText);
 
-                    if (!responseJson.data.hasOwnProperty('xdt_api__v1__feed__user_timeline_graphql_connection')) {
+                    if (
+                    !responseJson.data.hasOwnProperty('xdt_api__v1__feed__user_timeline_graphql_connection') ||
+                    !responseJson.data.hasOwnProperty('xdt_api__v1__feed__reels_media')
+                    ) {
                       return;
                     }
 
