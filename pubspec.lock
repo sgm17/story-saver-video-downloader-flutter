@@ -105,6 +105,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  draggable_menu:
+    dependency: "direct main"
+    description:
+      name: draggable_menu
+      sha256: bcca3fbdebb98e852ab91d11ea49242fe868758c97d5553333802fd74a5a8c9c
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   fake_async:
     dependency: transitive
     description:
