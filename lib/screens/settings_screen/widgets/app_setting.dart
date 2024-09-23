@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:story_saver_video_downloader/app_colors.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/material.dart';
 
 class AppSetting extends StatefulWidget {
   const AppSetting({
@@ -26,7 +25,7 @@ class _AppSettingState extends State<AppSetting> {
     super.initState();
     state = FlutterLocalNotificationsPlugin();
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('icon');
     final DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings();
     final InitializationSettings initializationSettings =
