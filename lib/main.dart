@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:story_saver_video_downloader/screens/draggable_widget.dart';
 import 'package:story_saver_video_downloader/screens/history_screen/history_screen.dart';
+import 'package:story_saver_video_downloader/screens/home_screen/home_screen.dart';
 import 'package:story_saver_video_downloader/screens/settings_screen/settings_screen.dart';
 
 void main() {
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SettingsScreen(),
+      home: const HomeScreen(),
     );
   }
 }

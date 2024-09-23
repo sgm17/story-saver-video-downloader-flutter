@@ -1,6 +1,8 @@
 import 'package:story_saver_video_downloader/models/edge.dart';
 import 'package:story_saver_video_downloader/models/navigation_state.dart';
+import 'package:story_saver_video_downloader/providers/highlighted_y_position_provider.dart';
 import 'package:story_saver_video_downloader/providers/navigation_state_provider.dart';
+import 'package:story_saver_video_downloader/providers/story_y_position_provider.dart';
 import 'package:story_saver_video_downloader/providers/web_view_controller_provider.dart';
 import 'package:story_saver_video_downloader/providers/initial_y_position_provider.dart';
 import 'package:story_saver_video_downloader/providers/xhr_stream_provider.dart';
@@ -87,9 +89,6 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
     final navigationState = ref.read(navigationStateProvider);
 
     if (navigationState == NavigationState.profile) {
-      while (await controller.isLoading()) {
-        await Future.delayed(Duration(seconds: 3));
-      }
       await controller.evaluateJavascript(source: """
         // Immediately call the function and return the result
         function waitForElement(selector, timeout) {
@@ -113,7 +112,24 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
 
         (async function() {
             const result = await waitForElement("main > div > hr:nth-child(3)", 10000); // 10 seconds timeout
-            window.flutter_inappwebview.callHandler('initialYPosition', result);        
+            window.flutter_inappwebview.callHandler('initialYPosition', result);
+
+            const storyElement = await waitForElement("main > div > header:nth-child(1) > section:nth-child(1)", 10000);
+            window.flutter_inappwebview.callHandler('storyYPosition', result);
+
+            var isMyProfile = false;
+            const element = document.querySelector("main > div > header:nth-child(1) > section:nth-child(1) > div > div > div > div");
+            if(element){
+              isMyProfile = true
+            }
+
+            const activeStory = document.querySelector("main > div > header:nth-child(1) > section:nth-child(1) > div > div > canvas");
+            if(activeStory){
+              console.log("Active story!")
+            }
+
+            const highlighted = await waitForElement("main > div > header:nth-child(1) > section:nth-child(6) > div > div > div > div > div > ul > li:nth-child(2) > div > div > div > div:nth-child(1)")
+            window.flutter_inappwebview.callHandler('highlightedYPosition', highlighted);
         })();
       """);
     }
@@ -134,6 +150,31 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
               : (value is int)
                   ? value.toDouble()
                   : 0.0;
+        });
+
+    webViewController?.addJavaScriptHandler(
+        handlerName: "storyYPosition",
+        callback: (args) {
+          final value = args[0];
+
+          ref.read(storyYPositionProvider.notifier).state = value is double
+              ? value
+              : (value is int)
+                  ? value.toDouble()
+                  : 0.0;
+        });
+
+    webViewController?.addJavaScriptHandler(
+        handlerName: "highlightedYPosition",
+        callback: (args) {
+          final value = args[0];
+
+          ref.read(highlightedYPositionProvider.notifier).state =
+              value is double
+                  ? value
+                  : (value is int)
+                      ? value.toDouble()
+                      : 0.0;
         });
 
     webViewController?.addJavaScriptHandler(
