@@ -1,7 +1,7 @@
 import 'package:story_saver_video_downloader/app_colors.dart';
 import 'package:story_saver_video_downloader/models/highlight_node.dart';
 import 'package:story_saver_video_downloader/providers/highlighted_y_position_provider.dart';
-import 'package:story_saver_video_downloader/providers/highlights_provider.dart';
+import 'package:story_saver_video_downloader/providers/highlights_provider/highlights_provider.dart';
 import 'package:story_saver_video_downloader/providers/scroll_y_provider.dart';
 import 'package:story_saver_video_downloader/providers/username_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
