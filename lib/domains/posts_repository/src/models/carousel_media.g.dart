@@ -9,13 +9,13 @@ part of 'carousel_media.dart';
 _$CarouselMediaImpl _$$CarouselMediaImplFromJson(Map<String, dynamic> json) =>
     _$CarouselMediaImpl(
       id: json['id'] as String,
-      mediaType: (json['mediaType'] as num).toInt(),
-      originalHeight: (json['originalHeight'] as num).toInt(),
-      originalWidth: (json['originalWidth'] as num).toInt(),
-      imageVersions2: (json['imageVersions2'] as List<dynamic>)
+      mediaType: (json['media_type'] as num).toInt(),
+      originalHeight: (json['original_height'] as num).toInt(),
+      originalWidth: (json['original_width'] as num).toInt(),
+      imageVersions2: (json['image_versions2'] as List<dynamic>)
           .map((e) => ImageVersions2.fromJson(e as Map<String, dynamic>))
           .toList(),
-      videosVersions: (json['videosVersions'] as List<dynamic>?)
+      videosVersions: (json['video_versions'] as List<dynamic>?)
           ?.map((e) => VideoVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -23,9 +23,9 @@ _$CarouselMediaImpl _$$CarouselMediaImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$CarouselMediaImplToJson(_$CarouselMediaImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'mediaType': instance.mediaType,
-      'originalHeight': instance.originalHeight,
-      'originalWidth': instance.originalWidth,
-      'imageVersions2': instance.imageVersions2,
-      'videosVersions': instance.videosVersions,
+      'media_type': instance.mediaType,
+      'original_height': instance.originalHeight,
+      'original_width': instance.originalWidth,
+      'image_versions2': instance.imageVersions2,
+      'video_versions': instance.videosVersions,
     };

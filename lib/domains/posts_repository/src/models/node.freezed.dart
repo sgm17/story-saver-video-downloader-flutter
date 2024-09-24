@@ -23,9 +23,11 @@ mixin _$Node {
   String get id => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
   User get user => throw _privateConstructorUsedError;
-  List<ImageVersions2> get imageVersions2 => throw _privateConstructorUsedError;
+  @JsonKey(name: "image_versions2")
+  ImageVersions2 get imageVersions2 => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
+  @JsonKey(name: "carousel_media")
   List<CarouselMedia>? get carouselMedia => throw _privateConstructorUsedError;
 
   /// Serializes this Node to a JSON map.
@@ -46,12 +48,13 @@ abstract class $NodeCopyWith<$Res> {
       {String id,
       String? code,
       User user,
-      List<ImageVersions2> imageVersions2,
+      @JsonKey(name: "image_versions2") ImageVersions2 imageVersions2,
       String? title,
       String? image,
-      List<CarouselMedia>? carouselMedia});
+      @JsonKey(name: "carousel_media") List<CarouselMedia>? carouselMedia});
 
   $UserCopyWith<$Res> get user;
+  $ImageVersions2CopyWith<$Res> get imageVersions2;
 }
 
 /// @nodoc
@@ -93,7 +96,7 @@ class _$NodeCopyWithImpl<$Res, $Val extends Node>
       imageVersions2: null == imageVersions2
           ? _value.imageVersions2
           : imageVersions2 // ignore: cast_nullable_to_non_nullable
-              as List<ImageVersions2>,
+              as ImageVersions2,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -118,6 +121,16 @@ class _$NodeCopyWithImpl<$Res, $Val extends Node>
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
+
+  /// Create a copy of Node
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ImageVersions2CopyWith<$Res> get imageVersions2 {
+    return $ImageVersions2CopyWith<$Res>(_value.imageVersions2, (value) {
+      return _then(_value.copyWith(imageVersions2: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -131,13 +144,15 @@ abstract class _$$NodeImplCopyWith<$Res> implements $NodeCopyWith<$Res> {
       {String id,
       String? code,
       User user,
-      List<ImageVersions2> imageVersions2,
+      @JsonKey(name: "image_versions2") ImageVersions2 imageVersions2,
       String? title,
       String? image,
-      List<CarouselMedia>? carouselMedia});
+      @JsonKey(name: "carousel_media") List<CarouselMedia>? carouselMedia});
 
   @override
   $UserCopyWith<$Res> get user;
+  @override
+  $ImageVersions2CopyWith<$Res> get imageVersions2;
 }
 
 /// @nodoc
@@ -174,9 +189,9 @@ class __$$NodeImplCopyWithImpl<$Res>
           : user // ignore: cast_nullable_to_non_nullable
               as User,
       imageVersions2: null == imageVersions2
-          ? _value._imageVersions2
+          ? _value.imageVersions2
           : imageVersions2 // ignore: cast_nullable_to_non_nullable
-              as List<ImageVersions2>,
+              as ImageVersions2,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -200,12 +215,12 @@ class _$NodeImpl implements _Node {
       {required this.id,
       this.code,
       required this.user,
-      required final List<ImageVersions2> imageVersions2,
+      @JsonKey(name: "image_versions2") required this.imageVersions2,
       this.title,
       this.image,
+      @JsonKey(name: "carousel_media")
       final List<CarouselMedia>? carouselMedia})
-      : _imageVersions2 = imageVersions2,
-        _carouselMedia = carouselMedia;
+      : _carouselMedia = carouselMedia;
 
   factory _$NodeImpl.fromJson(Map<String, dynamic> json) =>
       _$$NodeImplFromJson(json);
@@ -216,20 +231,16 @@ class _$NodeImpl implements _Node {
   final String? code;
   @override
   final User user;
-  final List<ImageVersions2> _imageVersions2;
   @override
-  List<ImageVersions2> get imageVersions2 {
-    if (_imageVersions2 is EqualUnmodifiableListView) return _imageVersions2;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_imageVersions2);
-  }
-
+  @JsonKey(name: "image_versions2")
+  final ImageVersions2 imageVersions2;
   @override
   final String? title;
   @override
   final String? image;
   final List<CarouselMedia>? _carouselMedia;
   @override
+  @JsonKey(name: "carousel_media")
   List<CarouselMedia>? get carouselMedia {
     final value = _carouselMedia;
     if (value == null) return null;
@@ -251,8 +262,8 @@ class _$NodeImpl implements _Node {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.user, user) || other.user == user) &&
-            const DeepCollectionEquality()
-                .equals(other._imageVersions2, _imageVersions2) &&
+            (identical(other.imageVersions2, imageVersions2) ||
+                other.imageVersions2 == imageVersions2) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.image, image) || other.image == image) &&
             const DeepCollectionEquality()
@@ -261,15 +272,8 @@ class _$NodeImpl implements _Node {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      code,
-      user,
-      const DeepCollectionEquality().hash(_imageVersions2),
-      title,
-      image,
-      const DeepCollectionEquality().hash(_carouselMedia));
+  int get hashCode => Object.hash(runtimeType, id, code, user, imageVersions2,
+      title, image, const DeepCollectionEquality().hash(_carouselMedia));
 
   /// Create a copy of Node
   /// with the given fields replaced by the non-null parameter values.
@@ -292,9 +296,11 @@ abstract class _Node implements Node {
       {required final String id,
       final String? code,
       required final User user,
-      required final List<ImageVersions2> imageVersions2,
+      @JsonKey(name: "image_versions2")
+      required final ImageVersions2 imageVersions2,
       final String? title,
       final String? image,
+      @JsonKey(name: "carousel_media")
       final List<CarouselMedia>? carouselMedia}) = _$NodeImpl;
 
   factory _Node.fromJson(Map<String, dynamic> json) = _$NodeImpl.fromJson;
@@ -306,12 +312,14 @@ abstract class _Node implements Node {
   @override
   User get user;
   @override
-  List<ImageVersions2> get imageVersions2;
+  @JsonKey(name: "image_versions2")
+  ImageVersions2 get imageVersions2;
   @override
   String? get title;
   @override
   String? get image;
   @override
+  @JsonKey(name: "carousel_media")
   List<CarouselMedia>? get carouselMedia;
 
   /// Create a copy of Node

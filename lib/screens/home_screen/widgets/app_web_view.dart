@@ -160,13 +160,18 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
         final username = ref.read(usernameProvider);
 
         switch (args[1]) {
-          case "xdt_api__v1__feed__user_timeline_graphql_connection":
-            // Edges Provider
+          case "posts":
             final edges = jsonObject["data"]
                     ["xdt_api__v1__feed__user_timeline_graphql_connection"]
                 ["edges"] as List?;
-            final nodes = edges?.map((e) => Node.fromJson(e['node'])).toList();
+            try {
+              final nodes =
+                  edges?.map((e) => Node.fromJson(e['node'])).toList();
+            } catch (e) {
+              print("ERRORR: $e");
+            }
 
+            List<Node> nodes = [];
             ref
                 .read(postsViewmodelProvider)
                 .retrievePosts(edge: nodes, username: username);
@@ -183,7 +188,6 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
                 carouselMedia: carouselMedia, username: username);
             break;
           case "highlights":
-            // Highlights Provider
             final edges = jsonObject["data"]["highlights"]["edges"] as List?;
             final nodes = edges?.map((e) => Node.fromJson(e["node"])).toList();
 
@@ -221,8 +225,6 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
   }
 
   void onLoadStop(InAppWebViewController controller, WebUri? url) async {
-    final username = ref.read(usernameProvider);
-
     await controller.evaluateJavascript(source: """
       (function() {                                      
           var originalXHROpen = XMLHttpRequest.prototype.open;
@@ -245,24 +247,17 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
               }
 
               this.addEventListener('load', function() {
-                  if (${username == null}) {
-                    // Not in the profile screen
-                    return;
-                  }
-
                   var responseJson = JSON.parse(xhr.responseText);
 
                   if (xhr.responseURL.includes('https://www.instagram.com/graphql/query')) {
                     // Query Request
-                    if (responseJson.data.hasOwnProperty('xdt_api__v1__feed__user_timeline_graphql_connection'))
-                    ) {
+                    if (responseJson.data.hasOwnProperty('xdt_api__v1__feed__user_timeline_graphql_connection')) {
                       const chunks = getChunksFromResponse(responseJson)
-                      // window.flutter_inappwebview.callHandler('interceptedGraphQl', chunks, Object.keys(responseJson.data)[0]);
-                      console.log("DATAAPP POSTS")
+                      window.flutter_inappwebview.callHandler('interceptedGraphQl', chunks, "posts");
                     } else if (responseJson.data.hasOwnProperty('xdt_api__v1__feed__reels_media')) {
                       console.log("DATAAPP STORIES")
                     } else if (responseJson.data.hasOwnProperty('highlights')) {
-                      console.log("DATAAPP HIGHLIGHTS")
+                      window.flutter_inappwebview.callHandler('interceptedGraphQl', chunks, "highlights");
                     } else if (responseJson.data.hasOwnProperty('xdt_viewer')) {
                       console.log("DATAAPP STORIES/HIGHLIGHTS content")
                     }

@@ -9,9 +9,10 @@ class Node with _$Node {
       {required String id,
       String? code,
       required User user,
-      required List<ImageVersions2> imageVersions2,
+      @JsonKey(name: "image_versions2") required ImageVersions2 imageVersions2,
       String? title,
       String? image,
+      @JsonKey(name: "carousel_media")
       List<CarouselMedia>? carouselMedia}) = _Node;
 
   factory Node.fromJson(Map<String, dynamic> json) => _$NodeFromJson(json);

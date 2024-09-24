@@ -21,10 +21,15 @@ CarouselMedia _$CarouselMediaFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CarouselMedia {
   String get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "media_type")
   int get mediaType => throw _privateConstructorUsedError;
+  @JsonKey(name: "original_height")
   int get originalHeight => throw _privateConstructorUsedError;
+  @JsonKey(name: "original_width")
   int get originalWidth => throw _privateConstructorUsedError;
+  @JsonKey(name: "image_versions2")
   List<ImageVersions2> get imageVersions2 => throw _privateConstructorUsedError;
+  @JsonKey(name: "video_versions")
   List<VideoVersion>? get videosVersions => throw _privateConstructorUsedError;
 
   /// Serializes this CarouselMedia to a JSON map.
@@ -45,11 +50,11 @@ abstract class $CarouselMediaCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      int mediaType,
-      int originalHeight,
-      int originalWidth,
-      List<ImageVersions2> imageVersions2,
-      List<VideoVersion>? videosVersions});
+      @JsonKey(name: "media_type") int mediaType,
+      @JsonKey(name: "original_height") int originalHeight,
+      @JsonKey(name: "original_width") int originalWidth,
+      @JsonKey(name: "image_versions2") List<ImageVersions2> imageVersions2,
+      @JsonKey(name: "video_versions") List<VideoVersion>? videosVersions});
 }
 
 /// @nodoc
@@ -113,11 +118,11 @@ abstract class _$$CarouselMediaImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      int mediaType,
-      int originalHeight,
-      int originalWidth,
-      List<ImageVersions2> imageVersions2,
-      List<VideoVersion>? videosVersions});
+      @JsonKey(name: "media_type") int mediaType,
+      @JsonKey(name: "original_height") int originalHeight,
+      @JsonKey(name: "original_width") int originalWidth,
+      @JsonKey(name: "image_versions2") List<ImageVersions2> imageVersions2,
+      @JsonKey(name: "video_versions") List<VideoVersion>? videosVersions});
 }
 
 /// @nodoc
@@ -174,10 +179,12 @@ class __$$CarouselMediaImplCopyWithImpl<$Res>
 class _$CarouselMediaImpl implements _CarouselMedia {
   const _$CarouselMediaImpl(
       {required this.id,
-      required this.mediaType,
-      required this.originalHeight,
-      required this.originalWidth,
+      @JsonKey(name: "media_type") required this.mediaType,
+      @JsonKey(name: "original_height") required this.originalHeight,
+      @JsonKey(name: "original_width") required this.originalWidth,
+      @JsonKey(name: "image_versions2")
       required final List<ImageVersions2> imageVersions2,
+      @JsonKey(name: "video_versions")
       final List<VideoVersion>? videosVersions})
       : _imageVersions2 = imageVersions2,
         _videosVersions = videosVersions;
@@ -188,13 +195,17 @@ class _$CarouselMediaImpl implements _CarouselMedia {
   @override
   final String id;
   @override
+  @JsonKey(name: "media_type")
   final int mediaType;
   @override
+  @JsonKey(name: "original_height")
   final int originalHeight;
   @override
+  @JsonKey(name: "original_width")
   final int originalWidth;
   final List<ImageVersions2> _imageVersions2;
   @override
+  @JsonKey(name: "image_versions2")
   List<ImageVersions2> get imageVersions2 {
     if (_imageVersions2 is EqualUnmodifiableListView) return _imageVersions2;
     // ignore: implicit_dynamic_type
@@ -203,6 +214,7 @@ class _$CarouselMediaImpl implements _CarouselMedia {
 
   final List<VideoVersion>? _videosVersions;
   @override
+  @JsonKey(name: "video_versions")
   List<VideoVersion>? get videosVersions {
     final value = _videosVersions;
     if (value == null) return null;
@@ -264,10 +276,12 @@ class _$CarouselMediaImpl implements _CarouselMedia {
 abstract class _CarouselMedia implements CarouselMedia {
   const factory _CarouselMedia(
       {required final String id,
-      required final int mediaType,
-      required final int originalHeight,
-      required final int originalWidth,
+      @JsonKey(name: "media_type") required final int mediaType,
+      @JsonKey(name: "original_height") required final int originalHeight,
+      @JsonKey(name: "original_width") required final int originalWidth,
+      @JsonKey(name: "image_versions2")
       required final List<ImageVersions2> imageVersions2,
+      @JsonKey(name: "video_versions")
       final List<VideoVersion>? videosVersions}) = _$CarouselMediaImpl;
 
   factory _CarouselMedia.fromJson(Map<String, dynamic> json) =
@@ -276,14 +290,19 @@ abstract class _CarouselMedia implements CarouselMedia {
   @override
   String get id;
   @override
+  @JsonKey(name: "media_type")
   int get mediaType;
   @override
+  @JsonKey(name: "original_height")
   int get originalHeight;
   @override
+  @JsonKey(name: "original_width")
   int get originalWidth;
   @override
+  @JsonKey(name: "image_versions2")
   List<ImageVersions2> get imageVersions2;
   @override
+  @JsonKey(name: "video_versions")
   List<VideoVersion>? get videosVersions;
 
   /// Create a copy of CarouselMedia

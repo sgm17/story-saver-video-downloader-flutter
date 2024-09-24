@@ -10,12 +10,11 @@ _$NodeImpl _$$NodeImplFromJson(Map<String, dynamic> json) => _$NodeImpl(
       id: json['id'] as String,
       code: json['code'] as String?,
       user: User.fromJson(json['user'] as Map<String, dynamic>),
-      imageVersions2: (json['imageVersions2'] as List<dynamic>)
-          .map((e) => ImageVersions2.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      imageVersions2: ImageVersions2.fromJson(
+          json['image_versions2'] as Map<String, dynamic>),
       title: json['title'] as String?,
       image: json['image'] as String?,
-      carouselMedia: (json['carouselMedia'] as List<dynamic>?)
+      carouselMedia: (json['carousel_media'] as List<dynamic>?)
           ?.map((e) => CarouselMedia.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -25,8 +24,8 @@ Map<String, dynamic> _$$NodeImplToJson(_$NodeImpl instance) =>
       'id': instance.id,
       'code': instance.code,
       'user': instance.user,
-      'imageVersions2': instance.imageVersions2,
+      'image_versions2': instance.imageVersions2,
       'title': instance.title,
       'image': instance.image,
-      'carouselMedia': instance.carouselMedia,
+      'carousel_media': instance.carouselMedia,
     };

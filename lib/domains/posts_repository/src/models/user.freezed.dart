@@ -21,6 +21,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$User {
   String get username => throw _privateConstructorUsedError;
+  @JsonKey(name: "profile_pic_url")
   String? get profilePicUrl => throw _privateConstructorUsedError;
 
   /// Serializes this User to a JSON map.
@@ -37,7 +38,9 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call({String username, String? profilePicUrl});
+  $Res call(
+      {String username,
+      @JsonKey(name: "profile_pic_url") String? profilePicUrl});
 }
 
 /// @nodoc
@@ -78,7 +81,9 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String username, String? profilePicUrl});
+  $Res call(
+      {String username,
+      @JsonKey(name: "profile_pic_url") String? profilePicUrl});
 }
 
 /// @nodoc
@@ -112,7 +117,9 @@ class __$$UserImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UserImpl implements _User {
-  const _$UserImpl({required this.username, this.profilePicUrl});
+  const _$UserImpl(
+      {required this.username,
+      @JsonKey(name: "profile_pic_url") this.profilePicUrl});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -120,6 +127,7 @@ class _$UserImpl implements _User {
   @override
   final String username;
   @override
+  @JsonKey(name: "profile_pic_url")
   final String? profilePicUrl;
 
   @override
@@ -160,14 +168,16 @@ class _$UserImpl implements _User {
 
 abstract class _User implements User {
   const factory _User(
-      {required final String username,
-      final String? profilePicUrl}) = _$UserImpl;
+          {required final String username,
+          @JsonKey(name: "profile_pic_url") final String? profilePicUrl}) =
+      _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
   @override
   String get username;
   @override
+  @JsonKey(name: "profile_pic_url")
   String? get profilePicUrl;
 
   /// Create a copy of User

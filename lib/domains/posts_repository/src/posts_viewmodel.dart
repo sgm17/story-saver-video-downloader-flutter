@@ -9,7 +9,7 @@ class PostsViewmodel implements PostsRepository {
 
   @override
   void retrievePosts({required List<Node>? edge, required String? username}) {
-    if (edge != null && edge.isNotEmpty) {
+    if (edge != null) {
       // Check that the nodes are not empty
       final postsData = ref.read(postsProvider);
       final posts = postsData.where((e) => e.username == username).firstOrNull;
