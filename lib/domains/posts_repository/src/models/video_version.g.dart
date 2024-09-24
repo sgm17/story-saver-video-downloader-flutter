@@ -8,8 +8,8 @@ part of 'video_version.dart';
 
 _$VideoVersionImpl _$$VideoVersionImplFromJson(Map<String, dynamic> json) =>
     _$VideoVersionImpl(
-      width: (json['width'] as num).toInt(),
-      height: (json['height'] as num).toInt(),
+      width: (json['width'] as num?)?.toInt(),
+      height: (json['height'] as num?)?.toInt(),
       url: json['url'] as String,
     );
 

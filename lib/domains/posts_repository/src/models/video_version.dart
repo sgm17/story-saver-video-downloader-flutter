@@ -4,10 +4,8 @@ part 'video_version.g.dart';
 
 @freezed
 class VideoVersion with _$VideoVersion {
-  const factory VideoVersion(
-      {required int width,
-      required int height,
-      required String url}) = _VideoVersion;
+  const factory VideoVersion({int? width, int? height, required String url}) =
+      _VideoVersion;
 
   factory VideoVersion.fromJson(Map<String, dynamic> json) =>
       _$VideoVersionFromJson(json);

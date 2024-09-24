@@ -190,7 +190,7 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
                 .read(highlightsViewmodelProvider)
                 .retrieveHighlights(username: username, edges: nodes);
             break;
-          case "xdt_viewer":
+          case "highlights_content":
             // Highlights Content
             final items = jsonObject["data"]
                     ["xdt_api__v1__feed__reels_media__connection"]["edges"][0]
@@ -255,8 +255,9 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
                     } else if (responseJson.data.hasOwnProperty('highlights')) {
                       const chunks = getChunksFromResponse(responseJson)
                       window.flutter_inappwebview.callHandler('interceptedGraphQl', chunks, "highlights");
-                    } else if (responseJson.data.hasOwnProperty('xdt_viewer')) {
-                      console.log("DATAAPP STORIES/HIGHLIGHTS content")
+                    } else if (responseJson.data.hasOwnProperty('xdt_viewer') && responseJson.data.hasOwnProperty('xdt_api__v1__feed__reels_media__connection')) {
+                      const chunks = getChunksFromResponse(responseJson)
+                      window.flutter_inappwebview.callHandler('interceptedGraphQl', chunks, "highlights_content");
                     }
                   }
               });

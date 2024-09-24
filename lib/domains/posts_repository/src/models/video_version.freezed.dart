@@ -20,8 +20,8 @@ VideoVersion _$VideoVersionFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$VideoVersion {
-  int get width => throw _privateConstructorUsedError;
-  int get height => throw _privateConstructorUsedError;
+  int? get width => throw _privateConstructorUsedError;
+  int? get height => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
 
   /// Serializes this VideoVersion to a JSON map.
@@ -40,7 +40,7 @@ abstract class $VideoVersionCopyWith<$Res> {
           VideoVersion value, $Res Function(VideoVersion) then) =
       _$VideoVersionCopyWithImpl<$Res, VideoVersion>;
   @useResult
-  $Res call({int width, int height, String url});
+  $Res call({int? width, int? height, String url});
 }
 
 /// @nodoc
@@ -58,19 +58,19 @@ class _$VideoVersionCopyWithImpl<$Res, $Val extends VideoVersion>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? width = null,
-    Object? height = null,
+    Object? width = freezed,
+    Object? height = freezed,
     Object? url = null,
   }) {
     return _then(_value.copyWith(
-      width: null == width
+      width: freezed == width
           ? _value.width
           : width // ignore: cast_nullable_to_non_nullable
-              as int,
-      height: null == height
+              as int?,
+      height: freezed == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
@@ -87,7 +87,7 @@ abstract class _$$VideoVersionImplCopyWith<$Res>
       __$$VideoVersionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int width, int height, String url});
+  $Res call({int? width, int? height, String url});
 }
 
 /// @nodoc
@@ -103,19 +103,19 @@ class __$$VideoVersionImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? width = null,
-    Object? height = null,
+    Object? width = freezed,
+    Object? height = freezed,
     Object? url = null,
   }) {
     return _then(_$VideoVersionImpl(
-      width: null == width
+      width: freezed == width
           ? _value.width
           : width // ignore: cast_nullable_to_non_nullable
-              as int,
-      height: null == height
+              as int?,
+      height: freezed == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
@@ -127,16 +127,15 @@ class __$$VideoVersionImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$VideoVersionImpl implements _VideoVersion {
-  const _$VideoVersionImpl(
-      {required this.width, required this.height, required this.url});
+  const _$VideoVersionImpl({this.width, this.height, required this.url});
 
   factory _$VideoVersionImpl.fromJson(Map<String, dynamic> json) =>
       _$$VideoVersionImplFromJson(json);
 
   @override
-  final int width;
+  final int? width;
   @override
-  final int height;
+  final int? height;
   @override
   final String url;
 
@@ -177,17 +176,17 @@ class _$VideoVersionImpl implements _VideoVersion {
 
 abstract class _VideoVersion implements VideoVersion {
   const factory _VideoVersion(
-      {required final int width,
-      required final int height,
+      {final int? width,
+      final int? height,
       required final String url}) = _$VideoVersionImpl;
 
   factory _VideoVersion.fromJson(Map<String, dynamic> json) =
       _$VideoVersionImpl.fromJson;
 
   @override
-  int get width;
+  int? get width;
   @override
-  int get height;
+  int? get height;
   @override
   String get url;
 

@@ -21,16 +21,13 @@ class _HighlightsOverlayState extends ConsumerState<HighlightsOverlay> {
   Widget build(BuildContext context) {
     final highlightedYPosition = ref.watch(highlightedYPositionProvider);
     final scrollY = ref.watch(scrollYProvider);
+
     final highlights = ref.watch(highlightsProvider);
     final username = ref.watch(usernameProvider);
     final usernameHighlights =
         highlights.where((e) => e.username == username).firstOrNull;
 
-    if (usernameHighlights == null) {
-      return const SizedBox.shrink();
-    }
-
-    final items = usernameHighlights.edges
+    final items = usernameHighlights?.edges
         .map((e) => DropdownMenuItem(
             value: e,
             child: Text(
@@ -42,15 +39,13 @@ class _HighlightsOverlayState extends ConsumerState<HighlightsOverlay> {
             )))
         .toList();
 
-    final coverMedia = selectedNode?.coverMedia;
-
     return Transform.translate(
       offset: Offset(10, highlightedYPosition - scrollY + 32 + 56),
       child: SizedBox(
         height: 56,
         child: Row(
           children: [
-            if (selectedNode == null || coverMedia == null)
+            if (selectedNode == null || selectedNode?.coverMedia == null)
               Container(
                   height: 56,
                   width: 56,
