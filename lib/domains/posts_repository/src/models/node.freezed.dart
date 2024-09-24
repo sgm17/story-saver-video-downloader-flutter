@@ -21,14 +21,15 @@ Node _$NodeFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Node {
   String get id => throw _privateConstructorUsedError;
-  String? get code => throw _privateConstructorUsedError;
   User get user => throw _privateConstructorUsedError;
+  String? get code => throw _privateConstructorUsedError;
   @JsonKey(name: "image_versions2")
-  ImageVersions2 get imageVersions2 => throw _privateConstructorUsedError;
+  ImageVersions2? get imageVersions2 => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
-  String? get image => throw _privateConstructorUsedError;
   @JsonKey(name: "carousel_media")
   List<CarouselMedia>? get carouselMedia => throw _privateConstructorUsedError;
+  @JsonKey(name: "cover_media")
+  CoverMedia? get coverMedia => throw _privateConstructorUsedError;
 
   /// Serializes this Node to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -46,15 +47,16 @@ abstract class $NodeCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String? code,
       User user,
-      @JsonKey(name: "image_versions2") ImageVersions2 imageVersions2,
+      String? code,
+      @JsonKey(name: "image_versions2") ImageVersions2? imageVersions2,
       String? title,
-      String? image,
-      @JsonKey(name: "carousel_media") List<CarouselMedia>? carouselMedia});
+      @JsonKey(name: "carousel_media") List<CarouselMedia>? carouselMedia,
+      @JsonKey(name: "cover_media") CoverMedia? coverMedia});
 
   $UserCopyWith<$Res> get user;
-  $ImageVersions2CopyWith<$Res> get imageVersions2;
+  $ImageVersions2CopyWith<$Res>? get imageVersions2;
+  $CoverMediaCopyWith<$Res>? get coverMedia;
 }
 
 /// @nodoc
@@ -73,42 +75,42 @@ class _$NodeCopyWithImpl<$Res, $Val extends Node>
   @override
   $Res call({
     Object? id = null,
-    Object? code = freezed,
     Object? user = null,
-    Object? imageVersions2 = null,
+    Object? code = freezed,
+    Object? imageVersions2 = freezed,
     Object? title = freezed,
-    Object? image = freezed,
     Object? carouselMedia = freezed,
+    Object? coverMedia = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      code: freezed == code
-          ? _value.code
-          : code // ignore: cast_nullable_to_non_nullable
-              as String?,
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User,
-      imageVersions2: null == imageVersions2
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+      imageVersions2: freezed == imageVersions2
           ? _value.imageVersions2
           : imageVersions2 // ignore: cast_nullable_to_non_nullable
-              as ImageVersions2,
+              as ImageVersions2?,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String?,
-      image: freezed == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
               as String?,
       carouselMedia: freezed == carouselMedia
           ? _value.carouselMedia
           : carouselMedia // ignore: cast_nullable_to_non_nullable
               as List<CarouselMedia>?,
+      coverMedia: freezed == coverMedia
+          ? _value.coverMedia
+          : coverMedia // ignore: cast_nullable_to_non_nullable
+              as CoverMedia?,
     ) as $Val);
   }
 
@@ -126,9 +128,27 @@ class _$NodeCopyWithImpl<$Res, $Val extends Node>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $ImageVersions2CopyWith<$Res> get imageVersions2 {
-    return $ImageVersions2CopyWith<$Res>(_value.imageVersions2, (value) {
+  $ImageVersions2CopyWith<$Res>? get imageVersions2 {
+    if (_value.imageVersions2 == null) {
+      return null;
+    }
+
+    return $ImageVersions2CopyWith<$Res>(_value.imageVersions2!, (value) {
       return _then(_value.copyWith(imageVersions2: value) as $Val);
+    });
+  }
+
+  /// Create a copy of Node
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CoverMediaCopyWith<$Res>? get coverMedia {
+    if (_value.coverMedia == null) {
+      return null;
+    }
+
+    return $CoverMediaCopyWith<$Res>(_value.coverMedia!, (value) {
+      return _then(_value.copyWith(coverMedia: value) as $Val);
     });
   }
 }
@@ -142,17 +162,19 @@ abstract class _$$NodeImplCopyWith<$Res> implements $NodeCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String? code,
       User user,
-      @JsonKey(name: "image_versions2") ImageVersions2 imageVersions2,
+      String? code,
+      @JsonKey(name: "image_versions2") ImageVersions2? imageVersions2,
       String? title,
-      String? image,
-      @JsonKey(name: "carousel_media") List<CarouselMedia>? carouselMedia});
+      @JsonKey(name: "carousel_media") List<CarouselMedia>? carouselMedia,
+      @JsonKey(name: "cover_media") CoverMedia? coverMedia});
 
   @override
   $UserCopyWith<$Res> get user;
   @override
-  $ImageVersions2CopyWith<$Res> get imageVersions2;
+  $ImageVersions2CopyWith<$Res>? get imageVersions2;
+  @override
+  $CoverMediaCopyWith<$Res>? get coverMedia;
 }
 
 /// @nodoc
@@ -168,42 +190,42 @@ class __$$NodeImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? code = freezed,
     Object? user = null,
-    Object? imageVersions2 = null,
+    Object? code = freezed,
+    Object? imageVersions2 = freezed,
     Object? title = freezed,
-    Object? image = freezed,
     Object? carouselMedia = freezed,
+    Object? coverMedia = freezed,
   }) {
     return _then(_$NodeImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      code: freezed == code
-          ? _value.code
-          : code // ignore: cast_nullable_to_non_nullable
-              as String?,
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User,
-      imageVersions2: null == imageVersions2
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+      imageVersions2: freezed == imageVersions2
           ? _value.imageVersions2
           : imageVersions2 // ignore: cast_nullable_to_non_nullable
-              as ImageVersions2,
+              as ImageVersions2?,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String?,
-      image: freezed == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
               as String?,
       carouselMedia: freezed == carouselMedia
           ? _value._carouselMedia
           : carouselMedia // ignore: cast_nullable_to_non_nullable
               as List<CarouselMedia>?,
+      coverMedia: freezed == coverMedia
+          ? _value.coverMedia
+          : coverMedia // ignore: cast_nullable_to_non_nullable
+              as CoverMedia?,
     ));
   }
 }
@@ -213,13 +235,12 @@ class __$$NodeImplCopyWithImpl<$Res>
 class _$NodeImpl implements _Node {
   const _$NodeImpl(
       {required this.id,
-      this.code,
       required this.user,
-      @JsonKey(name: "image_versions2") required this.imageVersions2,
+      this.code,
+      @JsonKey(name: "image_versions2") this.imageVersions2,
       this.title,
-      this.image,
-      @JsonKey(name: "carousel_media")
-      final List<CarouselMedia>? carouselMedia})
+      @JsonKey(name: "carousel_media") final List<CarouselMedia>? carouselMedia,
+      @JsonKey(name: "cover_media") this.coverMedia})
       : _carouselMedia = carouselMedia;
 
   factory _$NodeImpl.fromJson(Map<String, dynamic> json) =>
@@ -228,16 +249,14 @@ class _$NodeImpl implements _Node {
   @override
   final String id;
   @override
-  final String? code;
-  @override
   final User user;
   @override
+  final String? code;
+  @override
   @JsonKey(name: "image_versions2")
-  final ImageVersions2 imageVersions2;
+  final ImageVersions2? imageVersions2;
   @override
   final String? title;
-  @override
-  final String? image;
   final List<CarouselMedia>? _carouselMedia;
   @override
   @JsonKey(name: "carousel_media")
@@ -250,8 +269,12 @@ class _$NodeImpl implements _Node {
   }
 
   @override
+  @JsonKey(name: "cover_media")
+  final CoverMedia? coverMedia;
+
+  @override
   String toString() {
-    return 'Node(id: $id, code: $code, user: $user, imageVersions2: $imageVersions2, title: $title, image: $image, carouselMedia: $carouselMedia)';
+    return 'Node(id: $id, user: $user, code: $code, imageVersions2: $imageVersions2, title: $title, carouselMedia: $carouselMedia, coverMedia: $coverMedia)';
   }
 
   @override
@@ -260,20 +283,21 @@ class _$NodeImpl implements _Node {
         (other.runtimeType == runtimeType &&
             other is _$NodeImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.code, code) || other.code == code) &&
             (identical(other.user, user) || other.user == user) &&
+            (identical(other.code, code) || other.code == code) &&
             (identical(other.imageVersions2, imageVersions2) ||
                 other.imageVersions2 == imageVersions2) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.image, image) || other.image == image) &&
             const DeepCollectionEquality()
-                .equals(other._carouselMedia, _carouselMedia));
+                .equals(other._carouselMedia, _carouselMedia) &&
+            (identical(other.coverMedia, coverMedia) ||
+                other.coverMedia == coverMedia));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, code, user, imageVersions2,
-      title, image, const DeepCollectionEquality().hash(_carouselMedia));
+  int get hashCode => Object.hash(runtimeType, id, user, code, imageVersions2,
+      title, const DeepCollectionEquality().hash(_carouselMedia), coverMedia);
 
   /// Create a copy of Node
   /// with the given fields replaced by the non-null parameter values.
@@ -294,33 +318,32 @@ class _$NodeImpl implements _Node {
 abstract class _Node implements Node {
   const factory _Node(
       {required final String id,
-      final String? code,
       required final User user,
-      @JsonKey(name: "image_versions2")
-      required final ImageVersions2 imageVersions2,
+      final String? code,
+      @JsonKey(name: "image_versions2") final ImageVersions2? imageVersions2,
       final String? title,
-      final String? image,
-      @JsonKey(name: "carousel_media")
-      final List<CarouselMedia>? carouselMedia}) = _$NodeImpl;
+      @JsonKey(name: "carousel_media") final List<CarouselMedia>? carouselMedia,
+      @JsonKey(name: "cover_media") final CoverMedia? coverMedia}) = _$NodeImpl;
 
   factory _Node.fromJson(Map<String, dynamic> json) = _$NodeImpl.fromJson;
 
   @override
   String get id;
   @override
-  String? get code;
-  @override
   User get user;
   @override
+  String? get code;
+  @override
   @JsonKey(name: "image_versions2")
-  ImageVersions2 get imageVersions2;
+  ImageVersions2? get imageVersions2;
   @override
   String? get title;
   @override
-  String? get image;
-  @override
   @JsonKey(name: "carousel_media")
   List<CarouselMedia>? get carouselMedia;
+  @override
+  @JsonKey(name: "cover_media")
+  CoverMedia? get coverMedia;
 
   /// Create a copy of Node
   /// with the given fields replaced by the non-null parameter values.

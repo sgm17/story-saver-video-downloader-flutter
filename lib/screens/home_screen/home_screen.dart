@@ -1,6 +1,6 @@
 import 'package:story_saver_video_downloader/providers/username_provider.dart';
 import 'package:story_saver_video_downloader/screens/home_screen/widgets/story_overlay.dart';
-import 'package:story_saver_video_downloader/screens/home_screen/widgets/highlighted_overlay.dart';
+import 'package:story_saver_video_downloader/screens/home_screen/widgets/highlights_overlay.dart';
 import 'package:story_saver_video_downloader/screens/home_screen/widgets/instagram_overlay.dart';
 import 'package:story_saver_video_downloader/screens/home_screen/widgets/app_web_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,7 +20,7 @@ class HomeScreen extends ConsumerWidget {
       // Display widgets depending on the Navigation State
       if (username != null) const InstagramOverlay(),
       if (username != null) const StoryOverlay(),
-      if (username != null) const HighlightedOverlay(),
+      if (username != null) const HighlightsOverlay(),
     ])));
   }
 }

@@ -7,14 +7,14 @@ import 'package:story_saver_video_downloader/providers/username_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
-class HighlightedOverlay extends ConsumerStatefulWidget {
-  const HighlightedOverlay({super.key});
+class HighlightsOverlay extends ConsumerStatefulWidget {
+  const HighlightsOverlay({super.key});
 
   @override
-  ConsumerState<HighlightedOverlay> createState() => _HighlightedOverlayState();
+  ConsumerState<HighlightsOverlay> createState() => _HighlightsOverlayState();
 }
 
-class _HighlightedOverlayState extends ConsumerState<HighlightedOverlay> {
+class _HighlightsOverlayState extends ConsumerState<HighlightsOverlay> {
   Node? selectedNode;
 
   @override
@@ -42,13 +42,15 @@ class _HighlightedOverlayState extends ConsumerState<HighlightedOverlay> {
             )))
         .toList();
 
+    final coverMedia = selectedNode?.coverMedia;
+
     return Transform.translate(
       offset: Offset(10, highlightedYPosition - scrollY + 32 + 56),
       child: SizedBox(
         height: 56,
         child: Row(
           children: [
-            if (selectedNode == null)
+            if (selectedNode == null || coverMedia == null)
               Container(
                   height: 56,
                   width: 56,
@@ -59,7 +61,8 @@ class _HighlightedOverlayState extends ConsumerState<HighlightedOverlay> {
                 height: 56,
                 width: 56,
                 child: ClipOval(
-                  child: Image.network(selectedNode!.image!),
+                  child: Image.network(
+                      selectedNode!.coverMedia!.croppedImageVersion.url),
                 ),
               ),
             const SizedBox(
