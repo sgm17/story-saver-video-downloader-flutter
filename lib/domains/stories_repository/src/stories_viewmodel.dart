@@ -16,9 +16,10 @@ class StoriesViewmodel implements StoriesRepository {
       final stories = ref.read(storiesProvider);
       final storiesAlreadyStored = stories.any((e) => e.username == username);
 
-      if (!storiesAlreadyStored && username != null) {
-        final newStory = Story(username: username, media: carouselMedia);
-        ref.read(storiesProvider.notifier).addStories(story: newStory);
+      if (!storiesAlreadyStored) {
+        ref
+            .read(storiesProvider.notifier)
+            .addStories(username: username, carouselMedia: carouselMedia);
       }
     }
   }

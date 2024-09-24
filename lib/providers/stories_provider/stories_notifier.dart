@@ -1,3 +1,4 @@
+import 'package:story_saver_video_downloader/domains/posts_repository/src/models/models.dart';
 import 'package:story_saver_video_downloader/domains/stories_repository/stories_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,7 +7,11 @@ class StoriesNotifier extends StateNotifier<List<Story>> {
 
   StoriesNotifier(this.ref) : super([]);
 
-  void addStories({required Story story}) {
-    state = [story, ...state];
+  void addStories(
+      {required String? username, required List<CarouselMedia> carouselMedia}) {
+    if (username != null) {
+      final newStory = Story(username: username, media: carouselMedia);
+      state = [newStory, ...state];
+    }
   }
 }

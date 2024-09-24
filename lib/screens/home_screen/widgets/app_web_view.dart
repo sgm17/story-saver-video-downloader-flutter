@@ -172,10 +172,10 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
                 .retrievePosts(edge: nodes, username: username);
 
             break;
-          case "xdt_api__v1__feed__reels_media":
+          case "stories":
             // Stories Provider
             final items = jsonObject["data"]["xdt_api__v1__feed__reels_media"]
-                ["reels_media"]["items"] as List?;
+                ["reels_media"][0]["items"] as List?;
             final carouselMedia =
                 items?.map((e) => CarouselMedia.fromJson(e)).toList();
 
@@ -250,7 +250,8 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
                       const chunks = getChunksFromResponse(responseJson)
                       window.flutter_inappwebview.callHandler('interceptedGraphQl', chunks, "posts");
                     } else if (responseJson.data.hasOwnProperty('xdt_api__v1__feed__reels_media')) {
-                      console.log("DATAAPP STORIES")
+                      const chunks = getChunksFromResponse(responseJson)
+                      window.flutter_inappwebview.callHandler('interceptedGraphQl', chunks, "stories");
                     } else if (responseJson.data.hasOwnProperty('highlights')) {
                       const chunks = getChunksFromResponse(responseJson)
                       window.flutter_inappwebview.callHandler('interceptedGraphQl', chunks, "highlights");
