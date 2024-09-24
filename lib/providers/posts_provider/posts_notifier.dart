@@ -14,6 +14,11 @@ class PostsNotifier extends StateNotifier<List<Post>> {
 
       state =
           state.map((e) => e.username == username ? newUserPosts : e).toList();
+    } else {
+      if (username != null) {
+        final newPost = Post(username: username, edges: edges);
+        state = [newPost, ...state];
+      }
     }
   }
 }

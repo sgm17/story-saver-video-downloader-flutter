@@ -164,14 +164,9 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
             final edges = jsonObject["data"]
                     ["xdt_api__v1__feed__user_timeline_graphql_connection"]
                 ["edges"] as List?;
-            try {
-              final nodes =
-                  edges?.map((e) => Node.fromJson(e['node'])).toList();
-            } catch (e) {
-              print("ERRORR: $e");
-            }
 
-            List<Node> nodes = [];
+            final nodes = edges?.map((e) => Node.fromJson(e['node'])).toList();
+
             ref
                 .read(postsViewmodelProvider)
                 .retrievePosts(edge: nodes, username: username);

@@ -28,7 +28,7 @@ mixin _$CarouselMedia {
   @JsonKey(name: "original_width")
   int get originalWidth => throw _privateConstructorUsedError;
   @JsonKey(name: "image_versions2")
-  List<ImageVersions2> get imageVersions2 => throw _privateConstructorUsedError;
+  ImageVersions2 get imageVersions2 => throw _privateConstructorUsedError;
   @JsonKey(name: "video_versions")
   List<VideoVersion>? get videosVersions => throw _privateConstructorUsedError;
 
@@ -53,8 +53,10 @@ abstract class $CarouselMediaCopyWith<$Res> {
       @JsonKey(name: "media_type") int mediaType,
       @JsonKey(name: "original_height") int originalHeight,
       @JsonKey(name: "original_width") int originalWidth,
-      @JsonKey(name: "image_versions2") List<ImageVersions2> imageVersions2,
+      @JsonKey(name: "image_versions2") ImageVersions2 imageVersions2,
       @JsonKey(name: "video_versions") List<VideoVersion>? videosVersions});
+
+  $ImageVersions2CopyWith<$Res> get imageVersions2;
 }
 
 /// @nodoc
@@ -99,12 +101,22 @@ class _$CarouselMediaCopyWithImpl<$Res, $Val extends CarouselMedia>
       imageVersions2: null == imageVersions2
           ? _value.imageVersions2
           : imageVersions2 // ignore: cast_nullable_to_non_nullable
-              as List<ImageVersions2>,
+              as ImageVersions2,
       videosVersions: freezed == videosVersions
           ? _value.videosVersions
           : videosVersions // ignore: cast_nullable_to_non_nullable
               as List<VideoVersion>?,
     ) as $Val);
+  }
+
+  /// Create a copy of CarouselMedia
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ImageVersions2CopyWith<$Res> get imageVersions2 {
+    return $ImageVersions2CopyWith<$Res>(_value.imageVersions2, (value) {
+      return _then(_value.copyWith(imageVersions2: value) as $Val);
+    });
   }
 }
 
@@ -121,8 +133,11 @@ abstract class _$$CarouselMediaImplCopyWith<$Res>
       @JsonKey(name: "media_type") int mediaType,
       @JsonKey(name: "original_height") int originalHeight,
       @JsonKey(name: "original_width") int originalWidth,
-      @JsonKey(name: "image_versions2") List<ImageVersions2> imageVersions2,
+      @JsonKey(name: "image_versions2") ImageVersions2 imageVersions2,
       @JsonKey(name: "video_versions") List<VideoVersion>? videosVersions});
+
+  @override
+  $ImageVersions2CopyWith<$Res> get imageVersions2;
 }
 
 /// @nodoc
@@ -163,9 +178,9 @@ class __$$CarouselMediaImplCopyWithImpl<$Res>
           : originalWidth // ignore: cast_nullable_to_non_nullable
               as int,
       imageVersions2: null == imageVersions2
-          ? _value._imageVersions2
+          ? _value.imageVersions2
           : imageVersions2 // ignore: cast_nullable_to_non_nullable
-              as List<ImageVersions2>,
+              as ImageVersions2,
       videosVersions: freezed == videosVersions
           ? _value._videosVersions
           : videosVersions // ignore: cast_nullable_to_non_nullable
@@ -182,12 +197,10 @@ class _$CarouselMediaImpl implements _CarouselMedia {
       @JsonKey(name: "media_type") required this.mediaType,
       @JsonKey(name: "original_height") required this.originalHeight,
       @JsonKey(name: "original_width") required this.originalWidth,
-      @JsonKey(name: "image_versions2")
-      required final List<ImageVersions2> imageVersions2,
+      @JsonKey(name: "image_versions2") required this.imageVersions2,
       @JsonKey(name: "video_versions")
       final List<VideoVersion>? videosVersions})
-      : _imageVersions2 = imageVersions2,
-        _videosVersions = videosVersions;
+      : _videosVersions = videosVersions;
 
   factory _$CarouselMediaImpl.fromJson(Map<String, dynamic> json) =>
       _$$CarouselMediaImplFromJson(json);
@@ -203,15 +216,9 @@ class _$CarouselMediaImpl implements _CarouselMedia {
   @override
   @JsonKey(name: "original_width")
   final int originalWidth;
-  final List<ImageVersions2> _imageVersions2;
   @override
   @JsonKey(name: "image_versions2")
-  List<ImageVersions2> get imageVersions2 {
-    if (_imageVersions2 is EqualUnmodifiableListView) return _imageVersions2;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_imageVersions2);
-  }
-
+  final ImageVersions2 imageVersions2;
   final List<VideoVersion>? _videosVersions;
   @override
   @JsonKey(name: "video_versions")
@@ -240,8 +247,8 @@ class _$CarouselMediaImpl implements _CarouselMedia {
                 other.originalHeight == originalHeight) &&
             (identical(other.originalWidth, originalWidth) ||
                 other.originalWidth == originalWidth) &&
-            const DeepCollectionEquality()
-                .equals(other._imageVersions2, _imageVersions2) &&
+            (identical(other.imageVersions2, imageVersions2) ||
+                other.imageVersions2 == imageVersions2) &&
             const DeepCollectionEquality()
                 .equals(other._videosVersions, _videosVersions));
   }
@@ -254,7 +261,7 @@ class _$CarouselMediaImpl implements _CarouselMedia {
       mediaType,
       originalHeight,
       originalWidth,
-      const DeepCollectionEquality().hash(_imageVersions2),
+      imageVersions2,
       const DeepCollectionEquality().hash(_videosVersions));
 
   /// Create a copy of CarouselMedia
@@ -280,7 +287,7 @@ abstract class _CarouselMedia implements CarouselMedia {
       @JsonKey(name: "original_height") required final int originalHeight,
       @JsonKey(name: "original_width") required final int originalWidth,
       @JsonKey(name: "image_versions2")
-      required final List<ImageVersions2> imageVersions2,
+      required final ImageVersions2 imageVersions2,
       @JsonKey(name: "video_versions")
       final List<VideoVersion>? videosVersions}) = _$CarouselMediaImpl;
 
@@ -300,7 +307,7 @@ abstract class _CarouselMedia implements CarouselMedia {
   int get originalWidth;
   @override
   @JsonKey(name: "image_versions2")
-  List<ImageVersions2> get imageVersions2;
+  ImageVersions2 get imageVersions2;
   @override
   @JsonKey(name: "video_versions")
   List<VideoVersion>? get videosVersions;

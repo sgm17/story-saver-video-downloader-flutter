@@ -12,9 +12,8 @@ _$CarouselMediaImpl _$$CarouselMediaImplFromJson(Map<String, dynamic> json) =>
       mediaType: (json['media_type'] as num).toInt(),
       originalHeight: (json['original_height'] as num).toInt(),
       originalWidth: (json['original_width'] as num).toInt(),
-      imageVersions2: (json['image_versions2'] as List<dynamic>)
-          .map((e) => ImageVersions2.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      imageVersions2: ImageVersions2.fromJson(
+          json['image_versions2'] as Map<String, dynamic>),
       videosVersions: (json['video_versions'] as List<dynamic>?)
           ?.map((e) => VideoVersion.fromJson(e as Map<String, dynamic>))
           .toList(),

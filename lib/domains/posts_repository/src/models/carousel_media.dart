@@ -10,8 +10,7 @@ class CarouselMedia with _$CarouselMedia {
       @JsonKey(name: "media_type") required int mediaType,
       @JsonKey(name: "original_height") required int originalHeight,
       @JsonKey(name: "original_width") required int originalWidth,
-      @JsonKey(name: "image_versions2")
-      required List<ImageVersions2> imageVersions2,
+      @JsonKey(name: "image_versions2") required ImageVersions2 imageVersions2,
       @JsonKey(name: "video_versions")
       List<VideoVersion>? videosVersions}) = _CarouselMedia;
 
