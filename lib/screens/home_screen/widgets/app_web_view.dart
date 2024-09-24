@@ -167,9 +167,11 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
 
             final nodes = edges?.map((e) => Node.fromJson(e['node'])).toList();
 
-            ref
-                .read(postsViewmodelProvider)
-                .retrievePosts(edge: nodes, username: username);
+            if (nodes?.isEmpty == false) {
+              ref
+                  .read(postsViewmodelProvider)
+                  .retrievePosts(edge: nodes, username: username);
+            }
 
             break;
           case "stories":
@@ -178,17 +180,19 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
                 ["reels_media"][0]["items"] as List?;
             final carouselMedia =
                 items?.map((e) => CarouselMedia.fromJson(e)).toList();
-
-            ref.read(storiesViewmodelProvider).retrieveStories(
-                carouselMedia: carouselMedia, username: username);
+            if (carouselMedia?.isEmpty == false) {
+              ref.read(storiesViewmodelProvider).retrieveStories(
+                  carouselMedia: carouselMedia, username: username);
+            }
             break;
           case "highlights":
             final edges = jsonObject["data"]["highlights"]["edges"] as List?;
             final nodes = edges?.map((e) => Node.fromJson(e["node"])).toList();
-
-            ref
-                .read(highlightsViewmodelProvider)
-                .retrieveHighlights(username: username, edges: nodes);
+            if (nodes?.isEmpty == false) {
+              ref
+                  .read(highlightsViewmodelProvider)
+                  .retrieveHighlights(username: username, edges: nodes);
+            }
             break;
           case "highlights_content":
             // Highlights Content
@@ -202,9 +206,12 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
             final title = jsonObject["data"]
                     ["xdt_api__v1__feed__reels_media__connection"]["edges"][0]
                 ["node"]["title"];
-
-            ref.read(highlightsViewmodelProvider).retrieveHighlightsContent(
-                username: username, title: title, carouselMedia: carouselMedia);
+            if (carouselMedia?.isEmpty == false) {
+              ref.read(highlightsViewmodelProvider).retrieveHighlightsContent(
+                  username: username,
+                  title: title,
+                  carouselMedia: carouselMedia);
+            }
             break;
         }
         return null;
