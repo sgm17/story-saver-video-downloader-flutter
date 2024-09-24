@@ -1,49 +1,19 @@
-import 'package:story_saver_video_downloader/models/image_candidate.dart';
-import 'package:story_saver_video_downloader/models/carousel.dart';
-import 'package:story_saver_video_downloader/models/owner.dart';
+import 'package:story_saver_video_downloader/models/carousel_media.dart';
+import 'package:story_saver_video_downloader/models/image_versions2.dart';
 import 'package:story_saver_video_downloader/models/user.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+part 'node.freezed.dart';
+part 'node.g.dart';
 
-class Node {
-  final String code;
-  final String pk;
-  final String id;
-  final int takenAt;
-  final List<ImageCandidate> imageVersions;
-  final User user;
-  final Owner owner;
-  final int likeCount;
-  final int commentCount;
-  final List<CarouselMedia>? carouselMedia;
+@freezed
+class Node with _$Node {
+  const factory Node(
+      {required String id,
+      required User user,
+      required List<ImageVersions2> imageVersions2,
+      String? title,
+      String? image,
+      List<CarouselMedia>? carouselMedia}) = _Node;
 
-  Node({
-    required this.code,
-    required this.pk,
-    required this.id,
-    required this.takenAt,
-    required this.imageVersions,
-    required this.user,
-    required this.owner,
-    required this.likeCount,
-    required this.commentCount,
-    required this.carouselMedia,
-  });
-
-  factory Node.fromJson(Map<String, dynamic> json) {
-    return Node(
-      code: json['code'],
-      pk: json['pk'],
-      id: json['id'],
-      takenAt: json['taken_at'],
-      imageVersions: (json['image_versions2']['candidates'] as List)
-          .map((e) => ImageCandidate.fromJson(e))
-          .toList(),
-      user: User.fromJson(json['user']),
-      owner: Owner.fromJson(json['owner']),
-      likeCount: json['like_count'],
-      commentCount: json['comment_count'],
-      carouselMedia: (json['carousel_media'] as List?)
-          ?.map((e) => CarouselMedia.fromJson(e))
-          .toList(),
-    );
-  }
+  factory Node.fromJson(Map<String, dynamic> json) => _$NodeFromJson(json);
 }

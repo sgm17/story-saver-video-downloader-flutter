@@ -1,10 +1,10 @@
-import 'package:story_saver_video_downloader/models/carousel.dart';
+import 'package:story_saver_video_downloader/models/carousel_media.dart';
 import 'package:story_saver_video_downloader/models/edge.dart';
 import 'package:story_saver_video_downloader/models/highlight_carousel.dart';
 import 'package:story_saver_video_downloader/models/highlight_node.dart';
-import 'package:story_saver_video_downloader/models/highlights.dart';
+import 'package:story_saver_video_downloader/models/highlight.dart';
 import 'package:story_saver_video_downloader/models/navigation_state.dart';
-import 'package:story_saver_video_downloader/models/stories.dart';
+import 'package:story_saver_video_downloader/models/story.dart';
 import 'package:story_saver_video_downloader/providers/highlighted_y_position_provider.dart';
 import 'package:story_saver_video_downloader/providers/highlights_provider.dart';
 import 'package:story_saver_video_downloader/providers/is_story_active_provider.dart';

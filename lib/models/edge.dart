@@ -1,17 +1,11 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:story_saver_video_downloader/models/node.dart';
+part 'edge.freezed.dart';
+part 'edge.g.dart';
 
-class Edge {
-  final String username;
-  final List<Node> nodes;
+@freezed
+class Edge with _$Edge {
+  const factory Edge({required List<Node> nodes}) = _Edge;
 
-  Edge({required this.username, required this.nodes});
-
-  // Implement copyWith for immutability
-  Edge copyWith({List<Node>? nodes}) {
-    return Edge(
-      username: username, // Keep username the same
-      nodes:
-          nodes ?? this.nodes, // Update nodes if provided, else keep the same
-    );
-  }
+  factory Edge.fromJson(Map<String, dynamic> json) => _$EdgeFromJson(json);
 }

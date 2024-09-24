@@ -1,23 +1,13 @@
-// User Class
-class User {
-  final String? pk;
-  final String username;
-  final String? profilePicUrl;
-  final bool? isPrivate;
+import 'package:freezed_annotation/freezed_annotation.dart';
+part 'user.freezed.dart';
+part 'user.g.dart';
 
-  User({
-    this.pk,
-    required this.username,
-    this.profilePicUrl,
-    this.isPrivate,
-  });
+@freezed
+class User with _$User {
+  const factory User({
+    required String username,
+    String? profilePicUrl,
+  }) = _User;
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      pk: json['pk'],
-      username: json['username'],
-      profilePicUrl: json['profile_pic_url'],
-      isPrivate: json['is_private'],
-    );
-  }
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }

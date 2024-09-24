@@ -1,7 +1,6 @@
-import 'package:story_saver_video_downloader/screens/batch_item.dart';
+import 'package:story_saver_video_downloader/screens/dragabble_screen/widgets/batch_item.dart';
 import 'package:story_saver_video_downloader/models/media_type.dart';
 import 'package:story_saver_video_downloader/app_colors.dart';
-import 'package:draggable_menu/draggable_menu.dart';
 import 'package:flutter/material.dart';
 
 class DraggableWidget extends StatelessWidget {
@@ -75,24 +74,6 @@ class DraggableWidget extends StatelessWidget {
           const SizedBox(height: 23),
         ],
       ),
-    );
-  }
-}
-
-class DraggableScreen extends StatelessWidget {
-  const DraggableScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: SafeArea(
-          child: DraggableMenu(
-        expandable: true,
-        fastDragClose: false,
-        expandedHeight: MediaQuery.of(context).size.height / 2,
-        child: const DraggableWidget(),
-      )),
     );
   }
 }

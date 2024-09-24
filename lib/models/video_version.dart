@@ -1,15 +1,14 @@
-class VideoVersion {
-  final int width;
-  final int height;
-  final String url;
+import 'package:freezed_annotation/freezed_annotation.dart';
+part 'video_version.freezed.dart';
+part 'video_version.g.dart';
 
-  VideoVersion({required this.width, required this.height, required this.url});
+@freezed
+class VideoVersion with _$VideoVersion {
+  const factory VideoVersion(
+      {required int width,
+      required int height,
+      required String url}) = _VideoVersion;
 
-  factory VideoVersion.fromJson(Map<String, dynamic> json) {
-    return VideoVersion(
-      url: json['url'],
-      height: json['height'],
-      width: json['width'],
-    );
-  }
+  factory VideoVersion.fromJson(Map<String, dynamic> json) =>
+      _$VideoVersionFromJson(json);
 }
