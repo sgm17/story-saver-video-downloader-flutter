@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:story_saver_video_downloader/models/candidate.dart';
+import 'models.dart';
 part 'image_versions2.freezed.dart';
 part 'image_versions2.g.dart';
 

@@ -1,7 +1,5 @@
-import 'package:story_saver_video_downloader/models/carousel_media.dart';
-import 'package:story_saver_video_downloader/models/image_versions2.dart';
-import 'package:story_saver_video_downloader/models/user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'models.dart';
 part 'node.freezed.dart';
 part 'node.g.dart';
 

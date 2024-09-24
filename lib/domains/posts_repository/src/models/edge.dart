@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:story_saver_video_downloader/models/node.dart';
+import 'models.dart';
 part 'edge.freezed.dart';
 part 'edge.g.dart';
 

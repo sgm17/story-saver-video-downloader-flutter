@@ -1,5 +1,5 @@
+import 'package:story_saver_video_downloader/domains/posts_repository/posts_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:story_saver_video_downloader/models/edge.dart';
 part 'highlight.freezed.dart';
 part 'highlight.g.dart';
 
