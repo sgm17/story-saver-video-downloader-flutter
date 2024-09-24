@@ -21,6 +21,7 @@ Node _$NodeFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Node {
   String get id => throw _privateConstructorUsedError;
+  String? get code => throw _privateConstructorUsedError;
   User get user => throw _privateConstructorUsedError;
   List<ImageVersions2> get imageVersions2 => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
@@ -43,6 +44,7 @@ abstract class $NodeCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      String? code,
       User user,
       List<ImageVersions2> imageVersions2,
       String? title,
@@ -68,6 +70,7 @@ class _$NodeCopyWithImpl<$Res, $Val extends Node>
   @override
   $Res call({
     Object? id = null,
+    Object? code = freezed,
     Object? user = null,
     Object? imageVersions2 = null,
     Object? title = freezed,
@@ -79,6 +82,10 @@ class _$NodeCopyWithImpl<$Res, $Val extends Node>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -122,6 +129,7 @@ abstract class _$$NodeImplCopyWith<$Res> implements $NodeCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      String? code,
       User user,
       List<ImageVersions2> imageVersions2,
       String? title,
@@ -145,6 +153,7 @@ class __$$NodeImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? code = freezed,
     Object? user = null,
     Object? imageVersions2 = null,
     Object? title = freezed,
@@ -156,6 +165,10 @@ class __$$NodeImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -185,6 +198,7 @@ class __$$NodeImplCopyWithImpl<$Res>
 class _$NodeImpl implements _Node {
   const _$NodeImpl(
       {required this.id,
+      this.code,
       required this.user,
       required final List<ImageVersions2> imageVersions2,
       this.title,
@@ -198,6 +212,8 @@ class _$NodeImpl implements _Node {
 
   @override
   final String id;
+  @override
+  final String? code;
   @override
   final User user;
   final List<ImageVersions2> _imageVersions2;
@@ -224,7 +240,7 @@ class _$NodeImpl implements _Node {
 
   @override
   String toString() {
-    return 'Node(id: $id, user: $user, imageVersions2: $imageVersions2, title: $title, image: $image, carouselMedia: $carouselMedia)';
+    return 'Node(id: $id, code: $code, user: $user, imageVersions2: $imageVersions2, title: $title, image: $image, carouselMedia: $carouselMedia)';
   }
 
   @override
@@ -233,6 +249,7 @@ class _$NodeImpl implements _Node {
         (other.runtimeType == runtimeType &&
             other is _$NodeImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.code, code) || other.code == code) &&
             (identical(other.user, user) || other.user == user) &&
             const DeepCollectionEquality()
                 .equals(other._imageVersions2, _imageVersions2) &&
@@ -247,6 +264,7 @@ class _$NodeImpl implements _Node {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      code,
       user,
       const DeepCollectionEquality().hash(_imageVersions2),
       title,
@@ -272,6 +290,7 @@ class _$NodeImpl implements _Node {
 abstract class _Node implements Node {
   const factory _Node(
       {required final String id,
+      final String? code,
       required final User user,
       required final List<ImageVersions2> imageVersions2,
       final String? title,
@@ -282,6 +301,8 @@ abstract class _Node implements Node {
 
   @override
   String get id;
+  @override
+  String? get code;
   @override
   User get user;
   @override

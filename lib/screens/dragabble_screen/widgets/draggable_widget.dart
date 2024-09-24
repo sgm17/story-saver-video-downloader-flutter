@@ -1,5 +1,4 @@
 import 'package:story_saver_video_downloader/screens/dragabble_screen/widgets/batch_item.dart';
-import 'package:story_saver_video_downloader/models/media_type.dart';
 import 'package:story_saver_video_downloader/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -62,7 +61,7 @@ class DraggableWidget extends StatelessWidget {
                 return const BatchItem(
                     image: "assets/images/hq720.jpg",
                     filename: "172447384877328",
-                    type: MediaType.picture,
+                    mediaType: 1,
                     width: 1080,
                     height: 1080);
               },

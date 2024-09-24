@@ -1,4 +1,3 @@
-export "edge.dart";
 export "node.dart";
 export "post.dart";
 export "user.dart";

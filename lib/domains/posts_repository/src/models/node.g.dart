@@ -8,6 +8,7 @@ part of 'node.dart';
 
 _$NodeImpl _$$NodeImplFromJson(Map<String, dynamic> json) => _$NodeImpl(
       id: json['id'] as String,
+      code: json['code'] as String?,
       user: User.fromJson(json['user'] as Map<String, dynamic>),
       imageVersions2: (json['imageVersions2'] as List<dynamic>)
           .map((e) => ImageVersions2.fromJson(e as Map<String, dynamic>))
@@ -22,6 +23,7 @@ _$NodeImpl _$$NodeImplFromJson(Map<String, dynamic> json) => _$NodeImpl(
 Map<String, dynamic> _$$NodeImplToJson(_$NodeImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'code': instance.code,
       'user': instance.user,
       'imageVersions2': instance.imageVersions2,
       'title': instance.title,

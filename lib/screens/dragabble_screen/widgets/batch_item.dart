@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:story_saver_video_downloader/app_colors.dart';
-import 'package:story_saver_video_downloader/models/media_type.dart';
 
 class BatchItem extends StatefulWidget {
   const BatchItem(
       {super.key,
       required this.image,
       required this.filename,
-      required this.type,
+      required this.mediaType,
       required this.width,
       required this.height});
 
   final String image, filename;
-  final MediaType type;
-  final int width, height;
+  final int mediaType, width, height;
 
   @override
   State<BatchItem> createState() => _BatchItemState();
@@ -45,7 +43,7 @@ class _BatchItemState extends State<BatchItem> {
                 children: [
                   Expanded(
                     child: Text(
-                      widget.type.name,
+                      widget.mediaType.toString(),
                       style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),

@@ -6,10 +6,7 @@ part 'highlight.g.dart';
 @freezed
 class Highlight with _$Highlight {
   const factory Highlight(
-      {required String username,
-      required List<Edge> edge,
-      int? type,
-      String? url}) = _Highlight;
+      {required String username, required List<Node> edges}) = _Highlight;
 
   factory Highlight.fromJson(Map<String, dynamic> json) =>
       _$HighlightFromJson(json);

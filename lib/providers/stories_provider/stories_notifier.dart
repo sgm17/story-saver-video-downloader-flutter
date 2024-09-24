@@ -5,4 +5,8 @@ class StoriesNotifier extends StateNotifier<List<Story>> {
   final Ref ref;
 
   StoriesNotifier(this.ref) : super([]);
+
+  void addStories({required Story story}) {
+    state = [story, ...state];
+  }
 }

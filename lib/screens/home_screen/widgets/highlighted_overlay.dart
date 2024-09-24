@@ -1,5 +1,5 @@
 import 'package:story_saver_video_downloader/app_colors.dart';
-import 'package:story_saver_video_downloader/models/highlight_node.dart';
+import 'package:story_saver_video_downloader/domains/posts_repository/posts_repository.dart';
 import 'package:story_saver_video_downloader/providers/highlighted_y_position_provider.dart';
 import 'package:story_saver_video_downloader/providers/highlights_provider/highlights_provider.dart';
 import 'package:story_saver_video_downloader/providers/scroll_y_provider.dart';
@@ -15,7 +15,7 @@ class HighlightedOverlay extends ConsumerStatefulWidget {
 }
 
 class _HighlightedOverlayState extends ConsumerState<HighlightedOverlay> {
-  HighlightNode? highlightNode;
+  Node? selectedNode;
 
   @override
   Widget build(BuildContext context) {
@@ -26,21 +26,15 @@ class _HighlightedOverlayState extends ConsumerState<HighlightedOverlay> {
     final usernameHighlights =
         highlights.where((e) => e.username == username).firstOrNull;
 
-    if (highlightNode?.user.username != username) {
-      setState(() {
-        highlightNode = null;
-      });
-    }
-
     if (usernameHighlights == null) {
       return const SizedBox.shrink();
     }
 
-    final items = usernameHighlights.node
+    final items = usernameHighlights.edges
         .map((e) => DropdownMenuItem(
             value: e,
             child: Text(
-              e.title,
+              e.title ?? "",
               style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -54,7 +48,7 @@ class _HighlightedOverlayState extends ConsumerState<HighlightedOverlay> {
         height: 56,
         child: Row(
           children: [
-            if (highlightNode == null)
+            if (selectedNode == null)
               Container(
                   height: 56,
                   width: 56,
@@ -65,26 +59,26 @@ class _HighlightedOverlayState extends ConsumerState<HighlightedOverlay> {
                 height: 56,
                 width: 56,
                 child: ClipOval(
-                  child: Image.network(highlightNode!.image),
+                  child: Image.network(selectedNode!.image!),
                 ),
               ),
             const SizedBox(
               width: 23,
             ),
-            DropdownButton<HighlightNode>(
-                value: highlightNode,
+            DropdownButton<Node>(
+                value: selectedNode,
                 items: items,
                 dropdownColor: AppColors.black,
                 style: const TextStyle(color: Colors.white),
                 onChanged: (value) {
                   setState(() {
-                    highlightNode = value;
+                    selectedNode = value;
                   });
                 }),
             const SizedBox(
               width: 8,
             ),
-            if (highlightNode?.media == null)
+            if (selectedNode?.carouselMedia == null)
               Container(
                 padding: const EdgeInsets.all(6),
                 color: Colors.black,

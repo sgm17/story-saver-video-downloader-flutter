@@ -9,7 +9,7 @@ part of 'post.dart';
 _$PostImpl _$$PostImplFromJson(Map<String, dynamic> json) => _$PostImpl(
       username: json['username'] as String,
       edges: (json['edges'] as List<dynamic>)
-          .map((e) => Edge.fromJson(e as Map<String, dynamic>))
+          .map((e) => Node.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

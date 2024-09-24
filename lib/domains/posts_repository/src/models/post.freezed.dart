@@ -21,7 +21,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Post {
   String get username => throw _privateConstructorUsedError;
-  List<Edge> get edges => throw _privateConstructorUsedError;
+  List<Node> get edges => throw _privateConstructorUsedError;
 
   /// Serializes this Post to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,7 +37,7 @@ abstract class $PostCopyWith<$Res> {
   factory $PostCopyWith(Post value, $Res Function(Post) then) =
       _$PostCopyWithImpl<$Res, Post>;
   @useResult
-  $Res call({String username, List<Edge> edges});
+  $Res call({String username, List<Node> edges});
 }
 
 /// @nodoc
@@ -66,7 +66,7 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
       edges: null == edges
           ? _value.edges
           : edges // ignore: cast_nullable_to_non_nullable
-              as List<Edge>,
+              as List<Node>,
     ) as $Val);
   }
 }
@@ -78,7 +78,7 @@ abstract class _$$PostImplCopyWith<$Res> implements $PostCopyWith<$Res> {
       __$$PostImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String username, List<Edge> edges});
+  $Res call({String username, List<Node> edges});
 }
 
 /// @nodoc
@@ -104,7 +104,7 @@ class __$$PostImplCopyWithImpl<$Res>
       edges: null == edges
           ? _value._edges
           : edges // ignore: cast_nullable_to_non_nullable
-              as List<Edge>,
+              as List<Node>,
     ));
   }
 }
@@ -112,7 +112,7 @@ class __$$PostImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PostImpl implements _Post {
-  const _$PostImpl({required this.username, required final List<Edge> edges})
+  const _$PostImpl({required this.username, required final List<Node> edges})
       : _edges = edges;
 
   factory _$PostImpl.fromJson(Map<String, dynamic> json) =>
@@ -120,9 +120,9 @@ class _$PostImpl implements _Post {
 
   @override
   final String username;
-  final List<Edge> _edges;
+  final List<Node> _edges;
   @override
-  List<Edge> get edges {
+  List<Node> get edges {
     if (_edges is EqualUnmodifiableListView) return _edges;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_edges);
@@ -167,14 +167,14 @@ class _$PostImpl implements _Post {
 abstract class _Post implements Post {
   const factory _Post(
       {required final String username,
-      required final List<Edge> edges}) = _$PostImpl;
+      required final List<Node> edges}) = _$PostImpl;
 
   factory _Post.fromJson(Map<String, dynamic> json) = _$PostImpl.fromJson;
 
   @override
   String get username;
   @override
-  List<Edge> get edges;
+  List<Node> get edges;
 
   /// Create a copy of Post
   /// with the given fields replaced by the non-null parameter values.

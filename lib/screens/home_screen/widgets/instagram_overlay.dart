@@ -1,6 +1,6 @@
-import 'package:story_saver_video_downloader/providers/edges_provider.dart';
 import 'package:story_saver_video_downloader/providers/initial_y_position_provider.dart';
 import 'package:story_saver_video_downloader/providers/overflowed_rows_provider.dart';
+import 'package:story_saver_video_downloader/providers/posts_provider/providers.dart';
 import 'package:story_saver_video_downloader/providers/scroll_y_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +13,12 @@ class InstagramOverlay extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final initialYPosition = ref.watch(initialYPositionProvider);
     final scrollY = ref.watch(scrollYProvider);
-    final edges = ref.watch(edgesProvider);
+    final postsData = ref.watch(postsProvider);
     final username = ref.watch(usernameProvider);
 
-    final nodes = edges.where((e) => e.username == username).firstOrNull?.nodes;
+    final posts = postsData.where((e) => e.username == username).firstOrNull;
 
-    if (nodes == null) {
+    if (posts == null) {
       return const SizedBox.shrink();
     }
 
@@ -28,8 +28,8 @@ class InstagramOverlay extends ConsumerWidget {
     final itemsToRemove = overflowedRows * 3;
 
     // Adjust the item count to account for the removed items
-    final adjustedItemCount = (nodes.length > itemsToRemove)
-        ? nodes.length - itemsToRemove
+    final adjustedItemCount = (posts.edges.length > itemsToRemove)
+        ? posts.edges.length - itemsToRemove
         : 0; // Prevent negative count
 
     final containerHeight = containerWidth + 2;
