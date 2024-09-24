@@ -13,6 +13,10 @@ void updateNavigationState(WidgetRef ref, String url) {
     return;
   }
 
+  if (url.contains("https://www.instagram.com/stories/highlights/")) {
+    return;
+  }
+
   /// TRY TO EXTRACT THE CODE FROM THE URL
   // Check the current url
   final regExpHistoryCode = RegExp(r'\/p\/([^\/]+)');

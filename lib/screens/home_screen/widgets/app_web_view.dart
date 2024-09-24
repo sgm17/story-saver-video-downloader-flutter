@@ -1,5 +1,6 @@
 import 'package:story_saver_video_downloader/models/carousel.dart';
 import 'package:story_saver_video_downloader/models/edge.dart';
+import 'package:story_saver_video_downloader/models/highlight_carousel.dart';
 import 'package:story_saver_video_downloader/models/highlight_node.dart';
 import 'package:story_saver_video_downloader/models/highlights.dart';
 import 'package:story_saver_video_downloader/models/navigation_state.dart';
@@ -301,7 +302,7 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
                 ["node"]["items"] as List?;
 
             final carouselMedia = carouselMediaJson
-                ?.map((e) => CarouselMedia.fromJson(e))
+                ?.map((e) => HighlightCarousel.fromJson(e))
                 .toList();
 
             final title = jsonObject["data"]
@@ -337,7 +338,6 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
                 ref.read(highlightsProvider.notifier).state = newHighlights;
               }
             }
-
             break;
         }
         return null;
@@ -386,7 +386,8 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
 
                   if (xhr.responseURL.includes('https://www.instagram.com/graphql/query')) {
                     // Query Request
-                    if (responseJson.data.hasOwnProperty('xdt_api__v1__feed__user_timeline_graphql_connection') || responseJson.data.hasOwnProperty('xdt_api__v1__feed__reels_media') || responseJson.data.hasOwnProperty('highlights')) {
+                    if (responseJson.data.hasOwnProperty('xdt_api__v1__feed__user_timeline_graphql_connection') || responseJson.data.hasOwnProperty('xdt_api__v1__feed__reels_media') || responseJson.data.hasOwnProperty('highlights') || responseJson.data.hasOwnProperty('xdt_viewer')
+                    ) {
                       const chunks = getChunksFromResponse(responseJson)
                       window.flutter_inappwebview.callHandler('interceptedGraphQl', chunks, Object.keys(responseJson.data)[0]);
                     }

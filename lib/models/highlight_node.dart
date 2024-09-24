@@ -1,4 +1,4 @@
-import 'package:story_saver_video_downloader/models/carousel.dart';
+import 'package:story_saver_video_downloader/models/highlight_carousel.dart';
 import 'package:story_saver_video_downloader/models/user.dart';
 
 class HighlightNode {
@@ -6,7 +6,7 @@ class HighlightNode {
   final User user;
   final String title;
   final String image;
-  final List<CarouselMedia>? media;
+  final List<HighlightCarousel>? media;
 
   HighlightNode(
       {required this.id,
@@ -24,7 +24,7 @@ class HighlightNode {
   }
 
   // Implement copyWith for immutability
-  HighlightNode copyWith({List<CarouselMedia>? newMedia}) {
+  HighlightNode copyWith({List<HighlightCarousel>? newMedia}) {
     return HighlightNode(
       id: id,
       user: user,
