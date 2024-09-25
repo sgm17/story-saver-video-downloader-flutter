@@ -1,3 +1,4 @@
+import 'package:story_saver_video_downloader/screens/draggable_screen/widgets/draggable_header.dart';
 import 'package:story_saver_video_downloader/dialogs/download_progress.dart';
 import 'package:story_saver_video_downloader/domains/highlights_repository/src/models/models.dart';
 import 'package:story_saver_video_downloader/domains/posts_repository/src/models/models.dart';
@@ -9,7 +10,6 @@ import 'package:story_saver_video_downloader/screens/draggable_screen/widgets/dr
 import 'package:story_saver_video_downloader/providers/posts_provider/providers.dart';
 import 'package:story_saver_video_downloader/providers/stories_provider/providers.dart';
 import 'package:story_saver_video_downloader/providers/username_provider.dart';
-import 'package:story_saver_video_downloader/screens/draggable_screen/widgets/draggable_header.dart';
 import 'package:story_saver_video_downloader/app_colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
