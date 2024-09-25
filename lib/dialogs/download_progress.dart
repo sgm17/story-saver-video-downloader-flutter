@@ -39,7 +39,7 @@ class _DownloadProgressState extends State<DownloadProgress> {
     if (downloadProgress == "100") {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
-          Navigator.of(context).pop();
+          Navigator.of(widget.dialogContext).pop();
         }
       });
     }

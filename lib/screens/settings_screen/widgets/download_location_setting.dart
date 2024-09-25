@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:story_saver_video_downloader/app_colors.dart';
-import 'package:story_saver_video_downloader/screens/settings_screen/widgets/location_input.dart';
+import 'package:story_saver_video_downloader/dialogs/location_input.dart';
 
 class DownloadLocationSetting extends StatelessWidget {
   const DownloadLocationSetting({
