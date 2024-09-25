@@ -3,6 +3,8 @@ import 'package:story_saver_video_downloader/domains/highlights_repository/src/m
 import 'package:story_saver_video_downloader/domains/posts_repository/src/models/models.dart';
 import 'package:story_saver_video_downloader/domains/stories_repository/src/models/models.dart';
 import 'package:story_saver_video_downloader/providers/highlights_provider/highlights_provider.dart';
+import 'package:story_saver_video_downloader/providers/notifications_provider/providers.dart';
+import 'package:story_saver_video_downloader/providers/shared_preferences_provider/providers.dart';
 import 'package:story_saver_video_downloader/screens/draggable_screen/widgets/draggable_item.dart';
 import 'package:story_saver_video_downloader/providers/posts_provider/providers.dart';
 import 'package:story_saver_video_downloader/providers/stories_provider/providers.dart';
@@ -47,7 +49,7 @@ class _DraggableWidgetState extends ConsumerState<DraggableWidget> {
     super.initState();
 
     final username = ref.read(usernameProvider);
-    edge = getEdgesFromObject(ref, widget.type, username) ?? [];
+    edge = getEdgesFromObject(ref, username) ?? [];
     selectedIdNodes = edge.map((e) => e.id).toList();
     batchName = "${username}_${DateTime.now().millisecondsSinceEpoch}";
   }
@@ -121,10 +123,10 @@ class _DraggableWidgetState extends ConsumerState<DraggableWidget> {
     );
   }
 
-  List<Node>? getEdgesFromObject(WidgetRef ref, Object type, String? username) {
+  List<Node>? getEdgesFromObject(WidgetRef ref, String? username) {
     List<Node>? edge;
 
-    switch (type) {
+    switch (widget.type) {
       case const (Post):
         final posts = ref.read(postsProvider);
         edge = posts
@@ -150,24 +152,21 @@ class _DraggableWidgetState extends ConsumerState<DraggableWidget> {
   Future handleDownloadTap() async {
     final filteredEdges =
         edge.where((e) => selectedIdNodes.contains(e.id)).toList();
-    List<Map<String, dynamic>> urlsToDownload = [];
 
-    switch (widget.type) {
-      case const (Post):
-        for (Node e in filteredEdges) {
-          if (e.mediaType == 2) {
-            urlsToDownload
-                .add({"url": e.videosVersions!.first.url, "ext": "mp4"});
-          } else {
-            urlsToDownload.add(
-                {"url": e.imageVersions2!.candidates.first.url, "ext": "jpg"});
-          }
-        }
-        break;
-    }
+    List<Map<String, String>> urlsToDownload = filteredEdges
+        .where((e) => e.mediaType == 2
+            ? e.videosVersions?.isNotEmpty == true
+            : e.imageVersions2?.candidates.isNotEmpty == true)
+        .map((e) {
+      final String url = e.mediaType == 2
+          ? e.videosVersions!.first.url
+          : e.imageVersions2!.candidates.first.url;
+      final String ext = e.mediaType == 2 ? "mp4" : "jpg";
+      return {"url": url, "ext": ext};
+    }).toList();
 
     if (urlsToDownload.isNotEmpty) {
-      await showDialog(
+      final downloadResult = await showDialog(
           context: context,
           builder: (dialogContext) {
             return DownloadProgress(
@@ -176,6 +175,14 @@ class _DraggableWidgetState extends ConsumerState<DraggableWidget> {
                 dialogContext: dialogContext,
                 draggableContext: widget.draggableContext);
           });
+      if (downloadResult is bool && downloadResult) {
+        final downloadLocation =
+            ref.read(sharedPreferencesViewmodelProvider).getDownloadLocation();
+        await ref.read(notificationsViewmodelProvider).showNotification(
+            title: "Download Successful",
+            body:
+                "The ${urlsToDownload.length} elements are stored in $downloadLocation");
+      }
     }
   }
 }

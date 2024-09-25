@@ -1,5 +1,5 @@
 abstract class DownloadRepository {
-  Future downloadVideosFromUrl(
+  Future<bool> downloadVideosFromUrl(
       {required List<Map<String, dynamic>> elementsToDownload,
       required String batchName,
       required void Function(

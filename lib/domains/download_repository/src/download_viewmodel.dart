@@ -11,7 +11,7 @@ class DownloadViewmodel implements DownloadRepository {
   DownloadViewmodel({required this.ref});
 
   @override
-  Future downloadVideosFromUrl(
+  Future<bool> downloadVideosFromUrl(
       {required List<Map<String, dynamic>> elementsToDownload,
       required String batchName,
       required void Function(
@@ -57,8 +57,10 @@ class DownloadViewmodel implements DownloadRepository {
       }
 
       await Future.wait(downloadTasks);
+      return true;
     } catch (e) {
       print("Error $e");
+      return false;
     }
   }
 }

@@ -40,13 +40,15 @@ class _DownloadProgressState extends ConsumerState<DownloadProgress> {
   // Simulating download progress
   void initializeDownload() {
     Future.delayed(const Duration(milliseconds: 500), () async {
-      await ref.read(downloadViewmodelProvider).downloadVideosFromUrl(
-          elementsToDownload: widget.elementsToDownload,
-          batchName: widget.batchName,
-          updateProgress: updateProgress);
+      final downloadResult = await ref
+          .read(downloadViewmodelProvider)
+          .downloadVideosFromUrl(
+              elementsToDownload: widget.elementsToDownload,
+              batchName: widget.batchName,
+              updateProgress: updateProgress);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
-          Navigator.of(widget.dialogContext).pop();
+          Navigator.of(widget.dialogContext).pop(downloadResult);
           Navigator.pop(widget.draggableContext);
         }
       });

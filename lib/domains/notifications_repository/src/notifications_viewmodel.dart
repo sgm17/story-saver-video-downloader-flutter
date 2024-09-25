@@ -1,6 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:story_saver_video_downloader/domains/notifications_repository/src/notifications_repository.dart';
+import 'package:story_saver_video_downloader/providers/notifications_provider/notifications_provider.dart';
 import 'package:story_saver_video_downloader/providers/permissions_provider/permissions_viewmodel_provider.dart';
 
 class NotificationsViewmodel implements NotificationsRepository {
@@ -24,11 +25,11 @@ class NotificationsViewmodel implements NotificationsRepository {
   }
 
   @override
-  Future showNotification(
-      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
+  Future showNotification({required String title, required String body}) async {
     if (await ref
         .read(permissionsViewmodelProvider)
         .grantNotificationPermisisons()) {
+      final flutterLocalNotificationsPlugin = ref.read(notificationsProvider);
       const AndroidNotificationDetails androidNotificationDetails =
           AndroidNotificationDetails('your channel id', 'your channel name',
               channelDescription: 'your channel description',
@@ -37,9 +38,8 @@ class NotificationsViewmodel implements NotificationsRepository {
               ticker: 'ticker');
       const NotificationDetails notificationDetails =
           NotificationDetails(android: androidNotificationDetails);
-      await flutterLocalNotificationsPlugin.show(
-          0, 'plain title', 'plain body', notificationDetails,
-          payload: 'item x');
+      await flutterLocalNotificationsPlugin
+          .show(0, title, body, notificationDetails, payload: 'item x');
     }
   }
 }
