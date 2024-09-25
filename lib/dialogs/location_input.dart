@@ -1,20 +1,25 @@
-import 'package:flutter/material.dart';
+import 'package:story_saver_video_downloader/providers/shared_preferences_provider/shared_preferences_viewmodel_provider.dart';
+import 'package:story_saver_video_downloader/constants/constants.dart';
 import 'package:story_saver_video_downloader/app_colors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
 
-class LocationInput extends StatefulWidget {
+class LocationInput extends ConsumerStatefulWidget {
   const LocationInput({super.key});
 
   @override
-  State<LocationInput> createState() => _LocationInputState();
+  ConsumerState<LocationInput> createState() => _LocationInputState();
 }
 
-class _LocationInputState extends State<LocationInput> {
+class _LocationInputState extends ConsumerState<LocationInput> {
   late TextEditingController _textFieldController;
 
   @override
   void initState() {
     super.initState();
-    _textFieldController = TextEditingController();
+    final downloadLocation =
+        ref.read(sharedPreferencesViewmodelProvider).getDownloadLocation();
+    _textFieldController = TextEditingController(text: downloadLocation);
   }
 
   @override
@@ -32,7 +37,7 @@ class _LocationInputState extends State<LocationInput> {
       content: TextField(
         controller: _textFieldController,
         decoration:
-            const InputDecoration(hintText: "/storage/emulated/0/Download/"),
+            InputDecoration(hintText: Constants.DEFAULT_DOWNLOAD_LOCATION),
       ),
       actions: <Widget>[
         TextButton(
@@ -43,12 +48,21 @@ class _LocationInputState extends State<LocationInput> {
         ),
         TextButton(
           child: const Text('Confirm'),
-          onPressed: () {
-            print(_textFieldController.text);
-            Navigator.pop(context);
+          onPressed: () async {
+            if (!mounted) return;
+            await updateDownloadLocation();
+            if (mounted) {
+              Navigator.pop(context);
+            }
           },
         ),
       ],
     );
+  }
+
+  Future updateDownloadLocation() async {
+    ref
+        .read(sharedPreferencesViewmodelProvider)
+        .setDownloadLocation(downloadLocation: _textFieldController.text);
   }
 }

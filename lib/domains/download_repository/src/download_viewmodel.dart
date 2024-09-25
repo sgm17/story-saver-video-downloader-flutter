@@ -1,6 +1,6 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:story_saver_video_downloader/constants/constants.dart';
 import 'package:story_saver_video_downloader/domains/download_repository/src/download_repository.dart';
+import 'package:story_saver_video_downloader/providers/shared_preferences_provider/providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
@@ -33,7 +33,9 @@ class DownloadViewmodel implements DownloadRepository {
 
     try {
       // Get the external storage directory (Downloads folder)
-      Directory? downloadsDir = Directory(Constants.DEFAULT_DOWNLOAD_LOCATION);
+      final downloadsDirString =
+          ref.read(sharedPreferencesViewmodelProvider).getDownloadLocation();
+      Directory? downloadsDir = Directory(downloadsDirString);
 
       if (!downloadsDir.existsSync()) {
         downloadsDir = await getExternalStorageDirectory();
