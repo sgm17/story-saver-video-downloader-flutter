@@ -1,8 +1,13 @@
+import 'package:story_saver_video_downloader/overlays/highlights_overlay/highlights_overlay.dart';
+import 'package:story_saver_video_downloader/overlays/instagram_overlay/instagram_overlay.dart';
+import 'package:story_saver_video_downloader/overlays/story_overlay/story_overlay.dart';
 import 'package:story_saver_video_downloader/providers/bottom_navigation_provider.dart';
 import 'package:story_saver_video_downloader/providers/highlights_provider/highlights_provider.dart';
 import 'package:story_saver_video_downloader/providers/is_story_active_provider.dart';
 import 'package:story_saver_video_downloader/providers/posts_provider/providers.dart';
 import 'package:story_saver_video_downloader/providers/username_provider.dart';
+import 'package:story_saver_video_downloader/screens/history_screen/history_screen.dart';
+import 'package:story_saver_video_downloader/screens/settings_screen/settings_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'widgets/widgets.dart';
@@ -34,7 +39,11 @@ class HomeScreen extends ConsumerWidget {
               if (username != null && isHighlightsUsername)
                 const HighlightsOverlay(),
             ]),
-          ),
+          )
+        else if (bottomNavigation == "download")
+          const HistoryScreen()
+        else if (bottomNavigation == "settings")
+          const SettingsScreen(),
         const BottomNavigation()
       ],
     )));

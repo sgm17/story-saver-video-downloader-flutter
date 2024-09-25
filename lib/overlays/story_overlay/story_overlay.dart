@@ -14,7 +14,7 @@ class StoryOverlay extends ConsumerWidget {
     final isStoryActive = ref.watch(isStoryActiveProvider);
 
     if (!isStoryActive) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
 
     return Transform.translate(
