@@ -1,8 +1,9 @@
+import 'package:story_saver_video_downloader/dialogs/download_progress.dart';
 import 'package:story_saver_video_downloader/domains/highlights_repository/src/models/models.dart';
 import 'package:story_saver_video_downloader/domains/posts_repository/src/models/models.dart';
 import 'package:story_saver_video_downloader/domains/stories_repository/src/models/models.dart';
+import 'package:story_saver_video_downloader/providers/download_provider/download_viewmodel_provider.dart';
 import 'package:story_saver_video_downloader/providers/highlights_provider/highlights_provider.dart';
-import 'package:story_saver_video_downloader/screens/draggable_screen/widgets/download_button.dart';
 import 'package:story_saver_video_downloader/screens/draggable_screen/widgets/draggable_item.dart';
 import 'package:story_saver_video_downloader/providers/posts_provider/providers.dart';
 import 'package:story_saver_video_downloader/providers/stories_provider/providers.dart';
@@ -11,6 +12,7 @@ import 'package:story_saver_video_downloader/screens/draggable_screen/widgets/dr
 import 'package:story_saver_video_downloader/app_colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:story_saver_video_downloader/utils/download_video.dart';
 
 class DraggableWidget extends ConsumerStatefulWidget {
   const DraggableWidget({super.key, required this.type, required this.index});
@@ -49,7 +51,7 @@ class _DraggableWidgetState extends ConsumerState<DraggableWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (edge.isNotEmpty) {
+    if (edge.isEmpty) {
       return const SizedBox.shrink();
     }
 
@@ -93,8 +95,23 @@ class _DraggableWidgetState extends ConsumerState<DraggableWidget> {
             ),
           ),
           const SizedBox(height: 16),
-          DownloadButton(
-              numberElements: numberElements, edges: edge, type: widget.type),
+          GestureDetector(
+            onTap: handleDownloadTap,
+            child: Container(
+              alignment: Alignment.center,
+              height: 55,
+              decoration: BoxDecoration(
+                  color: AppColors.primaryColor,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Text(
+                "Download ${selectedIdNodes.length} items",
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
+            ),
+          ),
           const SizedBox(height: 23),
         ],
       ),
@@ -125,5 +142,34 @@ class _DraggableWidgetState extends ConsumerState<DraggableWidget> {
     }
 
     return edge;
+  }
+
+  void updateProgress({required String progress}) {
+    print("This: $progress");
+  }
+
+  Future handleDownloadTap() async {
+    final filteredEdges =
+        edge.where((e) => selectedIdNodes.contains(e.id)).toList();
+    List<String> urlsToDownload = [];
+
+    switch (widget.type) {
+      case const (Post):
+        urlsToDownload = filteredEdges.map((e) {
+          if (e.mediaType == 2) {
+            return e.videosVersions!.first.url;
+          } else {
+            return e.imageVersions2!.candidates.first.url;
+          }
+        }).toList();
+        break;
+    }
+
+    if (urlsToDownload.isNotEmpty) {
+      await ref.read(downloadViewmodelProvider).downloadVideosFromUrl(
+          urls: urlsToDownload,
+          batchName: batchName,
+          updateProgress: updateProgress);
+    }
   }
 }
