@@ -1,2 +1,1 @@
-export "notifications_notifier.dart";
-export "notifications_provider.dart";
+export "notifications_viewmodel_provider.dart";
