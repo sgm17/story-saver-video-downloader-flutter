@@ -12,8 +12,8 @@ class PostItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async => await DraggableMenu.open(
-          context, DraggableScreen(type: Post, index: index)),
+      onTap: () async => await DraggableMenu.open(context,
+          DraggableScreen(type: Post, index: index, draggableContext: context)),
       child: Container(
         alignment: Alignment.center,
         height: 40,

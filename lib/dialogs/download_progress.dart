@@ -1,8 +1,57 @@
+import 'package:story_saver_video_downloader/app_colors.dart';
+import 'package:story_saver_video_downloader/providers/download_provider/providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:story_saver_video_downloader/utils/download_video.dart';
 
-class DownloadProgress extends StatelessWidget {
-  const DownloadProgress({super.key});
+class DownloadProgress extends ConsumerStatefulWidget {
+  const DownloadProgress(
+      {super.key,
+      required this.elementsToDownload,
+      required this.batchName,
+      required this.dialogContext,
+      required this.draggableContext});
+
+  @override
+  ConsumerState<DownloadProgress> createState() => _DownloadProgressState();
+
+  final List<Map<String, dynamic>> elementsToDownload;
+  final String batchName;
+  final BuildContext dialogContext, draggableContext;
+}
+
+class _DownloadProgressState extends ConsumerState<DownloadProgress> {
+  double _progress = 0.0;
+  int _currentDownload = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    initializeDownload();
+  }
+
+  void updateProgress(
+      {required double progress, required int currentDownload}) {
+    setState(() {
+      _progress = progress;
+      _currentDownload = currentDownload;
+    });
+  }
+
+  // Simulating download progress
+  void initializeDownload() {
+    Future.delayed(const Duration(milliseconds: 500), () async {
+      await ref.read(downloadViewmodelProvider).downloadVideosFromUrl(
+          elementsToDownload: widget.elementsToDownload,
+          batchName: widget.batchName,
+          updateProgress: updateProgress);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          Navigator.of(widget.dialogContext).pop();
+          Navigator.pop(widget.draggableContext);
+        }
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +64,7 @@ class DownloadProgress extends StatelessWidget {
             height: 150,
             width: 150,
             child: CircularProgressIndicator(
-              value: int.parse(downloadProgress) /
-                  100, // Value between 0.0 and 1.0
+              value: _progress / 100,
               strokeWidth: 10,
               backgroundColor:
                   Colors.grey[300], // Background color for the ring
@@ -25,13 +73,24 @@ class DownloadProgress extends StatelessWidget {
             ),
           ),
           // Percentage Text in the Center
-          Text(
-            '$downloadProgress%', // Convert progress to percentage
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '${_progress.toStringAsFixed(0)}%', // Convert progress to percentage
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                "${_currentDownload + 1}/${widget.elementsToDownload.length}",
+                style:
+                    const TextStyle(fontSize: 14, color: AppColors.lightGrey),
+              )
+            ],
           ),
         ],
       ),

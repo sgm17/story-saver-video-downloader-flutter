@@ -3,10 +3,15 @@ import 'package:draggable_menu/draggable_menu.dart';
 import 'package:flutter/material.dart';
 
 class DraggableScreen extends StatelessWidget {
-  const DraggableScreen({super.key, required this.type, required this.index});
+  const DraggableScreen(
+      {super.key,
+      required this.type,
+      required this.index,
+      required this.draggableContext});
 
   final Object type;
   final int index;
+  final BuildContext draggableContext;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +19,8 @@ class DraggableScreen extends StatelessWidget {
       expandable: true,
       fastDragClose: false,
       expandedHeight: MediaQuery.of(context).size.height / 2,
-      child: DraggableWidget(type: type, index: index),
+      child: DraggableWidget(
+          type: type, index: index, draggableContext: draggableContext),
     );
   }
 }

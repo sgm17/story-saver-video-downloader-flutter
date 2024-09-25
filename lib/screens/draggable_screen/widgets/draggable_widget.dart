@@ -1,7 +1,7 @@
+import 'package:story_saver_video_downloader/dialogs/download_progress.dart';
 import 'package:story_saver_video_downloader/domains/highlights_repository/src/models/models.dart';
 import 'package:story_saver_video_downloader/domains/posts_repository/src/models/models.dart';
 import 'package:story_saver_video_downloader/domains/stories_repository/src/models/models.dart';
-import 'package:story_saver_video_downloader/providers/download_provider/download_viewmodel_provider.dart';
 import 'package:story_saver_video_downloader/providers/highlights_provider/highlights_provider.dart';
 import 'package:story_saver_video_downloader/screens/draggable_screen/widgets/draggable_item.dart';
 import 'package:story_saver_video_downloader/providers/posts_provider/providers.dart';
@@ -13,10 +13,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
 class DraggableWidget extends ConsumerStatefulWidget {
-  const DraggableWidget({super.key, required this.type, required this.index});
+  const DraggableWidget(
+      {super.key,
+      required this.type,
+      required this.index,
+      required this.draggableContext});
 
   final Object type;
   final int index;
+  final BuildContext draggableContext;
 
   @override
   ConsumerState<DraggableWidget> createState() => _DraggableWidgetState();
@@ -142,11 +147,6 @@ class _DraggableWidgetState extends ConsumerState<DraggableWidget> {
     return edge;
   }
 
-  void updateProgress(
-      {required double progress, required int currentDownload}) {
-    print("This: $progress, $currentDownload/${selectedIdNodes.length}");
-  }
-
   Future handleDownloadTap() async {
     final filteredEdges =
         edge.where((e) => selectedIdNodes.contains(e.id)).toList();
@@ -167,10 +167,15 @@ class _DraggableWidgetState extends ConsumerState<DraggableWidget> {
     }
 
     if (urlsToDownload.isNotEmpty) {
-      await ref.read(downloadViewmodelProvider).downloadVideosFromUrl(
-          elementsToDownload: urlsToDownload,
-          batchName: batchName,
-          updateProgress: updateProgress);
+      await showDialog(
+          context: context,
+          builder: (dialogContext) {
+            return DownloadProgress(
+                elementsToDownload: urlsToDownload,
+                batchName: batchName,
+                dialogContext: dialogContext,
+                draggableContext: widget.draggableContext);
+          });
     }
   }
 }
