@@ -11,7 +11,7 @@ class Node with _$Node {
       User? user,
       String? title,
       String? code,
-      @JsonKey(name: "media_type") required int mediaType,
+      @JsonKey(name: "media_type") int? mediaType,
       @JsonKey(name: "original_height") required int originalHeight,
       @JsonKey(name: "original_width") required int originalWidth,
       @JsonKey(name: "image_versions2") ImageVersions2? imageVersions2,

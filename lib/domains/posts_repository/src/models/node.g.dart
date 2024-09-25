@@ -13,7 +13,7 @@ _$NodeImpl _$$NodeImplFromJson(Map<String, dynamic> json) => _$NodeImpl(
           : User.fromJson(json['user'] as Map<String, dynamic>),
       title: json['title'] as String?,
       code: json['code'] as String?,
-      mediaType: (json['media_type'] as num).toInt(),
+      mediaType: (json['media_type'] as num?)?.toInt(),
       originalHeight: (json['original_height'] as num).toInt(),
       originalWidth: (json['original_width'] as num).toInt(),
       imageVersions2: json['image_versions2'] == null

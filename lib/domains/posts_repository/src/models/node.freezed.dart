@@ -25,7 +25,7 @@ mixin _$Node {
   String? get title => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
   @JsonKey(name: "media_type")
-  int get mediaType => throw _privateConstructorUsedError;
+  int? get mediaType => throw _privateConstructorUsedError;
   @JsonKey(name: "original_height")
   int get originalHeight => throw _privateConstructorUsedError;
   @JsonKey(name: "original_width")
@@ -58,7 +58,7 @@ abstract class $NodeCopyWith<$Res> {
       User? user,
       String? title,
       String? code,
-      @JsonKey(name: "media_type") int mediaType,
+      @JsonKey(name: "media_type") int? mediaType,
       @JsonKey(name: "original_height") int originalHeight,
       @JsonKey(name: "original_width") int originalWidth,
       @JsonKey(name: "image_versions2") ImageVersions2? imageVersions2,
@@ -90,7 +90,7 @@ class _$NodeCopyWithImpl<$Res, $Val extends Node>
     Object? user = freezed,
     Object? title = freezed,
     Object? code = freezed,
-    Object? mediaType = null,
+    Object? mediaType = freezed,
     Object? originalHeight = null,
     Object? originalWidth = null,
     Object? imageVersions2 = freezed,
@@ -115,10 +115,10 @@ class _$NodeCopyWithImpl<$Res, $Val extends Node>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String?,
-      mediaType: null == mediaType
+      mediaType: freezed == mediaType
           ? _value.mediaType
           : mediaType // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       originalHeight: null == originalHeight
           ? _value.originalHeight
           : originalHeight // ignore: cast_nullable_to_non_nullable
@@ -201,7 +201,7 @@ abstract class _$$NodeImplCopyWith<$Res> implements $NodeCopyWith<$Res> {
       User? user,
       String? title,
       String? code,
-      @JsonKey(name: "media_type") int mediaType,
+      @JsonKey(name: "media_type") int? mediaType,
       @JsonKey(name: "original_height") int originalHeight,
       @JsonKey(name: "original_width") int originalWidth,
       @JsonKey(name: "image_versions2") ImageVersions2? imageVersions2,
@@ -233,7 +233,7 @@ class __$$NodeImplCopyWithImpl<$Res>
     Object? user = freezed,
     Object? title = freezed,
     Object? code = freezed,
-    Object? mediaType = null,
+    Object? mediaType = freezed,
     Object? originalHeight = null,
     Object? originalWidth = null,
     Object? imageVersions2 = freezed,
@@ -258,10 +258,10 @@ class __$$NodeImplCopyWithImpl<$Res>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String?,
-      mediaType: null == mediaType
+      mediaType: freezed == mediaType
           ? _value.mediaType
           : mediaType // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       originalHeight: null == originalHeight
           ? _value.originalHeight
           : originalHeight // ignore: cast_nullable_to_non_nullable
@@ -298,7 +298,7 @@ class _$NodeImpl implements _Node {
       this.user,
       this.title,
       this.code,
-      @JsonKey(name: "media_type") required this.mediaType,
+      @JsonKey(name: "media_type") this.mediaType,
       @JsonKey(name: "original_height") required this.originalHeight,
       @JsonKey(name: "original_width") required this.originalWidth,
       @JsonKey(name: "image_versions2") this.imageVersions2,
@@ -322,7 +322,7 @@ class _$NodeImpl implements _Node {
   final String? code;
   @override
   @JsonKey(name: "media_type")
-  final int mediaType;
+  final int? mediaType;
   @override
   @JsonKey(name: "original_height")
   final int originalHeight;
@@ -425,7 +425,7 @@ abstract class _Node implements Node {
       final User? user,
       final String? title,
       final String? code,
-      @JsonKey(name: "media_type") required final int mediaType,
+      @JsonKey(name: "media_type") final int? mediaType,
       @JsonKey(name: "original_height") required final int originalHeight,
       @JsonKey(name: "original_width") required final int originalWidth,
       @JsonKey(name: "image_versions2") final ImageVersions2? imageVersions2,
@@ -446,7 +446,7 @@ abstract class _Node implements Node {
   String? get code;
   @override
   @JsonKey(name: "media_type")
-  int get mediaType;
+  int? get mediaType;
   @override
   @JsonKey(name: "original_height")
   int get originalHeight;
