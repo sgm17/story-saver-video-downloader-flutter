@@ -1,8 +1,7 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:story_saver_video_downloader/domains/highlights_repository/highlights_repository.dart';
-import 'package:story_saver_video_downloader/domains/posts_repository/src/models/carousel_media.dart';
 import 'package:story_saver_video_downloader/domains/posts_repository/src/models/node.dart';
 import 'package:story_saver_video_downloader/providers/highlights_provider/highlights_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HighlightsViewmodel implements HighlightsRepository {
   final Ref ref;
@@ -29,7 +28,7 @@ class HighlightsViewmodel implements HighlightsRepository {
   void retrieveHighlightsContent(
       {required String? username,
       required String title,
-      required List<CarouselMedia>? carouselMedia}) {
+      required List<Node>? carouselMedia}) {
     if (carouselMedia != null) {
       final highlights = ref.read(highlightsProvider);
       final userHighlights =

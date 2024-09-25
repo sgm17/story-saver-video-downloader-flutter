@@ -6,5 +6,5 @@ abstract class HighlightsRepository {
   void retrieveHighlightsContent(
       {required String username,
       required String title,
-      required List<CarouselMedia> carouselMedia});
+      required List<Node> carouselMedia});
 }

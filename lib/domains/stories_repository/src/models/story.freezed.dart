@@ -21,7 +21,7 @@ Story _$StoryFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Story {
   String get username => throw _privateConstructorUsedError;
-  List<CarouselMedia> get media => throw _privateConstructorUsedError;
+  List<Node> get edges => throw _privateConstructorUsedError;
 
   /// Serializes this Story to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,7 +37,7 @@ abstract class $StoryCopyWith<$Res> {
   factory $StoryCopyWith(Story value, $Res Function(Story) then) =
       _$StoryCopyWithImpl<$Res, Story>;
   @useResult
-  $Res call({String username, List<CarouselMedia> media});
+  $Res call({String username, List<Node> edges});
 }
 
 /// @nodoc
@@ -56,17 +56,17 @@ class _$StoryCopyWithImpl<$Res, $Val extends Story>
   @override
   $Res call({
     Object? username = null,
-    Object? media = null,
+    Object? edges = null,
   }) {
     return _then(_value.copyWith(
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
-      media: null == media
-          ? _value.media
-          : media // ignore: cast_nullable_to_non_nullable
-              as List<CarouselMedia>,
+      edges: null == edges
+          ? _value.edges
+          : edges // ignore: cast_nullable_to_non_nullable
+              as List<Node>,
     ) as $Val);
   }
 }
@@ -78,7 +78,7 @@ abstract class _$$StoryImplCopyWith<$Res> implements $StoryCopyWith<$Res> {
       __$$StoryImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String username, List<CarouselMedia> media});
+  $Res call({String username, List<Node> edges});
 }
 
 /// @nodoc
@@ -95,17 +95,17 @@ class __$$StoryImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? username = null,
-    Object? media = null,
+    Object? edges = null,
   }) {
     return _then(_$StoryImpl(
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
-      media: null == media
-          ? _value._media
-          : media // ignore: cast_nullable_to_non_nullable
-              as List<CarouselMedia>,
+      edges: null == edges
+          ? _value._edges
+          : edges // ignore: cast_nullable_to_non_nullable
+              as List<Node>,
     ));
   }
 }
@@ -113,26 +113,25 @@ class __$$StoryImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$StoryImpl implements _Story {
-  const _$StoryImpl(
-      {required this.username, required final List<CarouselMedia> media})
-      : _media = media;
+  const _$StoryImpl({required this.username, required final List<Node> edges})
+      : _edges = edges;
 
   factory _$StoryImpl.fromJson(Map<String, dynamic> json) =>
       _$$StoryImplFromJson(json);
 
   @override
   final String username;
-  final List<CarouselMedia> _media;
+  final List<Node> _edges;
   @override
-  List<CarouselMedia> get media {
-    if (_media is EqualUnmodifiableListView) return _media;
+  List<Node> get edges {
+    if (_edges is EqualUnmodifiableListView) return _edges;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_media);
+    return EqualUnmodifiableListView(_edges);
   }
 
   @override
   String toString() {
-    return 'Story(username: $username, media: $media)';
+    return 'Story(username: $username, edges: $edges)';
   }
 
   @override
@@ -142,13 +141,13 @@ class _$StoryImpl implements _Story {
             other is _$StoryImpl &&
             (identical(other.username, username) ||
                 other.username == username) &&
-            const DeepCollectionEquality().equals(other._media, _media));
+            const DeepCollectionEquality().equals(other._edges, _edges));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, username, const DeepCollectionEquality().hash(_media));
+      runtimeType, username, const DeepCollectionEquality().hash(_edges));
 
   /// Create a copy of Story
   /// with the given fields replaced by the non-null parameter values.
@@ -169,14 +168,14 @@ class _$StoryImpl implements _Story {
 abstract class _Story implements Story {
   const factory _Story(
       {required final String username,
-      required final List<CarouselMedia> media}) = _$StoryImpl;
+      required final List<Node> edges}) = _$StoryImpl;
 
   factory _Story.fromJson(Map<String, dynamic> json) = _$StoryImpl.fromJson;
 
   @override
   String get username;
   @override
-  List<CarouselMedia> get media;
+  List<Node> get edges;
 
   /// Create a copy of Story
   /// with the given fields replaced by the non-null parameter values.

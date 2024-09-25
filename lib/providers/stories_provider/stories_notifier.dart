@@ -7,10 +7,9 @@ class StoriesNotifier extends StateNotifier<List<Story>> {
 
   StoriesNotifier(this.ref) : super([]);
 
-  void addStories(
-      {required String? username, required List<CarouselMedia> carouselMedia}) {
+  void addStories({required String? username, required List<Node> nodes}) {
     if (username != null) {
-      final newStory = Story(username: username, media: carouselMedia);
+      final newStory = Story(username: username, edges: nodes);
       state = [newStory, ...state];
     }
   }

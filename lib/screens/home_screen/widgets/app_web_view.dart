@@ -1,5 +1,4 @@
 import 'package:story_saver_video_downloader/domains/posts_repository/src/models/node.dart';
-import 'package:story_saver_video_downloader/domains/posts_repository/src/models/carousel_media.dart';
 import 'package:story_saver_video_downloader/providers/highlighted_y_position_provider.dart';
 import 'package:story_saver_video_downloader/providers/highlights_provider/highlights_viewmodel_provider.dart';
 import 'package:story_saver_video_downloader/providers/is_story_active_provider.dart';
@@ -178,11 +177,11 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
             // Stories Provider
             final items = jsonObject["data"]["xdt_api__v1__feed__reels_media"]
                 ["reels_media"][0]["items"] as List?;
-            final carouselMedia =
-                items?.map((e) => CarouselMedia.fromJson(e)).toList();
-            if (carouselMedia?.isEmpty == false) {
-              ref.read(storiesViewmodelProvider).retrieveStories(
-                  carouselMedia: carouselMedia, username: username);
+            final nodes = items?.map((e) => Node.fromJson(e)).toList();
+            if (nodes?.isEmpty == false) {
+              ref
+                  .read(storiesViewmodelProvider)
+                  .retrieveStories(nodes: nodes, username: username);
             }
             break;
           case "highlights":
@@ -200,17 +199,14 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
                     ["xdt_api__v1__feed__reels_media__connection"]["edges"][0]
                 ["node"]["items"] as List?;
 
-            final carouselMedia =
-                items?.map((e) => CarouselMedia.fromJson(e)).toList();
+            final nodes = items?.map((e) => Node.fromJson(e)).toList();
 
             final title = jsonObject["data"]
                     ["xdt_api__v1__feed__reels_media__connection"]["edges"][0]
                 ["node"]["title"];
-            if (carouselMedia?.isEmpty == false) {
+            if (nodes?.isEmpty == false) {
               ref.read(highlightsViewmodelProvider).retrieveHighlightsContent(
-                  username: username,
-                  title: title,
-                  carouselMedia: carouselMedia);
+                  username: username, title: title, carouselMedia: nodes);
             }
             break;
         }

@@ -1,40 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:story_saver_video_downloader/app_colors.dart';
+import 'package:story_saver_video_downloader/domains/posts_repository/src/models/models.dart';
 
-class BatchItem extends StatefulWidget {
-  const BatchItem(
+class DraggableItem extends StatelessWidget {
+  const DraggableItem(
       {super.key,
-      required this.image,
       required this.filename,
-      required this.mediaType,
-      required this.width,
-      required this.height});
+      required this.node,
+      required this.selectIdNodes,
+      required this.onTapDraggableItem});
 
-  final String image, filename;
-  final int mediaType, width, height;
-
-  @override
-  State<BatchItem> createState() => _BatchItemState();
-}
-
-class _BatchItemState extends State<BatchItem> {
-  bool isSelected = false;
+  final String filename;
+  final Node node;
+  final List<String> selectIdNodes;
+  final void Function({required String id}) onTapDraggableItem;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          isSelected = !isSelected;
-        });
-      },
+      onTap: () => onTapDraggableItem(id: node.id),
       child: SizedBox(
         height: 60,
         child: Row(
           children: [
             AspectRatio(
                 aspectRatio: 1,
-                child: Image.asset(widget.image, fit: BoxFit.cover)),
+                child: Image.network(node.imageVersions2!.candidates.first.url,
+                    fit: BoxFit.cover)),
             const SizedBox(
               width: 10,
             ),
@@ -43,7 +35,7 @@ class _BatchItemState extends State<BatchItem> {
                 children: [
                   Expanded(
                     child: Text(
-                      widget.mediaType.toString(),
+                      node.mediaType == 1 ? "Image" : "Video",
                       style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
@@ -53,7 +45,7 @@ class _BatchItemState extends State<BatchItem> {
                   ),
                   Expanded(
                     child: Text(
-                      widget.filename,
+                      filename,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(color: Colors.white, fontSize: 10),
                     ),
@@ -63,7 +55,7 @@ class _BatchItemState extends State<BatchItem> {
                   ),
                   Expanded(
                     child: Text(
-                      "${widget.width}x${widget.height}",
+                      "${node.originalWidth}x${node.originalHeight}",
                       style: const TextStyle(
                           color: AppColors.lightGrey, fontSize: 10),
                     ),
@@ -75,17 +67,10 @@ class _BatchItemState extends State<BatchItem> {
               width: 32,
             ),
             Checkbox(
-              checkColor: Colors.white,
-              activeColor: AppColors.primaryColor,
-              value: isSelected,
-              onChanged: (bool? value) {
-                setState(() {
-                  if (value != null) {
-                    isSelected = value;
-                  }
-                });
-              },
-            )
+                checkColor: Colors.white,
+                activeColor: AppColors.primaryColor,
+                value: selectIdNodes.contains(node.id),
+                onChanged: (bool? _) => onTapDraggableItem(id: node.id))
           ],
         ),
       ),

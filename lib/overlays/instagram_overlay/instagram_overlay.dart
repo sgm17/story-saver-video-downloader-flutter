@@ -50,11 +50,11 @@ class InstagramOverlay extends ConsumerWidget {
         ),
         itemCount: adjustedItemCount,
         itemBuilder: (context, index) {
-          return const Align(
+          return Align(
             alignment: Alignment.bottomRight,
             child: Padding(
-              padding: EdgeInsets.only(bottom: 8, right: 8),
-              child: PostItem(),
+              padding: const EdgeInsets.only(bottom: 8, right: 8),
+              child: PostItem(index: index),
             ),
           );
         },

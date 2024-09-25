@@ -1,18 +1,19 @@
+import 'package:story_saver_video_downloader/domains/posts_repository/src/models/models.dart';
+import 'package:story_saver_video_downloader/screens/draggable_screen/draggable_screen.dart';
+import 'package:story_saver_video_downloader/app_colors.dart';
 import 'package:draggable_menu/draggable_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:story_saver_video_downloader/app_colors.dart';
-import 'package:story_saver_video_downloader/screens/dragabble_screen/dragabble_screen.dart';
-
-import '../../screens/dragabble_screen/widgets/widgets.dart';
 
 class PostItem extends StatelessWidget {
-  const PostItem({super.key});
+  const PostItem({super.key, required this.index});
+
+  final int index;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async =>
-          await DraggableMenu.open(context, const DraggableScreen()),
+      onTap: () async => await DraggableMenu.open(
+          context, DraggableScreen(type: Post, index: index)),
       child: Container(
         alignment: Alignment.center,
         height: 40,
