@@ -1,4 +1,3 @@
-import 'package:story_saver_video_downloader/dialogs/download_progress.dart';
 import 'package:story_saver_video_downloader/domains/highlights_repository/src/models/models.dart';
 import 'package:story_saver_video_downloader/domains/posts_repository/src/models/models.dart';
 import 'package:story_saver_video_downloader/domains/stories_repository/src/models/models.dart';
@@ -12,7 +11,6 @@ import 'package:story_saver_video_downloader/screens/draggable_screen/widgets/dr
 import 'package:story_saver_video_downloader/app_colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:story_saver_video_downloader/utils/download_video.dart';
 
 class DraggableWidget extends ConsumerStatefulWidget {
   const DraggableWidget({super.key, required this.type, required this.index});
@@ -144,30 +142,33 @@ class _DraggableWidgetState extends ConsumerState<DraggableWidget> {
     return edge;
   }
 
-  void updateProgress({required String progress}) {
-    print("This: $progress");
+  void updateProgress(
+      {required double progress, required int currentDownload}) {
+    print("This: $progress, $currentDownload/${selectedIdNodes.length}");
   }
 
   Future handleDownloadTap() async {
     final filteredEdges =
         edge.where((e) => selectedIdNodes.contains(e.id)).toList();
-    List<String> urlsToDownload = [];
+    List<Map<String, dynamic>> urlsToDownload = [];
 
     switch (widget.type) {
       case const (Post):
-        urlsToDownload = filteredEdges.map((e) {
+        for (Node e in filteredEdges) {
           if (e.mediaType == 2) {
-            return e.videosVersions!.first.url;
+            urlsToDownload
+                .add({"url": e.videosVersions!.first.url, "ext": "mp4"});
           } else {
-            return e.imageVersions2!.candidates.first.url;
+            urlsToDownload.add(
+                {"url": e.imageVersions2!.candidates.first.url, "ext": "jpg"});
           }
-        }).toList();
+        }
         break;
     }
 
     if (urlsToDownload.isNotEmpty) {
       await ref.read(downloadViewmodelProvider).downloadVideosFromUrl(
-          urls: urlsToDownload,
+          elementsToDownload: urlsToDownload,
           batchName: batchName,
           updateProgress: updateProgress);
     }

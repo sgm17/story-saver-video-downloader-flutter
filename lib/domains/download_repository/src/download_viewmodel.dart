@@ -12,23 +12,23 @@ class DownloadViewmodel implements DownloadRepository {
 
   @override
   Future downloadVideosFromUrl(
-      {required List<String> urls,
+      {required List<Map<String, dynamic>> elementsToDownload,
       required String batchName,
-      required void Function({required String progress})
+      required void Function(
+              {required double progress, required int currentDownload})
           updateProgress}) async {
     final dio = Dio();
+    int _currentDownload = 0;
 
     Future downloadFile({required String url, required String filePath}) async {
       // Start downloading the video
       await dio.download(url, filePath, onReceiveProgress: (received, total) {
         if (total != -1) {
-          final progress =
-              ((received / urls.length) / total * 100).toStringAsFixed(0);
-          updateProgress(progress: progress);
+          final progress = (received / total * 100);
+          updateProgress(progress: progress, currentDownload: _currentDownload);
         }
       });
-
-      print('Download complete: Video saved to $filePath');
+      _currentDownload += 1;
     }
 
     try {
@@ -39,14 +39,19 @@ class DownloadViewmodel implements DownloadRepository {
         downloadsDir = await getExternalStorageDirectory();
       }
 
+      Directory batchDir = Directory("${downloadsDir!.path}/$batchName");
+
+      if (!downloadsDir.existsSync()) {
+        await batchDir.create();
+      }
+
       List<Future> downloadTasks = [];
 
-      for (String url in urls) {
-        int index = urls.indexOf(url);
-        String fileName = "${index}_$batchName";
-        String filePath = "${downloadsDir!.path}/$fileName";
+      for (Map<String, dynamic> el in elementsToDownload) {
+        int index = elementsToDownload.indexOf(el);
+        String filePath = "${batchDir.path}/$index.${el["ext"]}";
 
-        downloadTasks.add(downloadFile(url: url, filePath: filePath));
+        downloadTasks.add(downloadFile(url: el["url"], filePath: filePath));
       }
 
       await Future.wait(downloadTasks);
