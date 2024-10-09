@@ -145,7 +145,6 @@ class _DraggableWidgetState extends ConsumerState<DraggableWidget> {
             highlights.where((e) => e.username == username).firstOrNull?.edges;
         break;
     }
-
     return edge;
   }
 
@@ -153,16 +152,17 @@ class _DraggableWidgetState extends ConsumerState<DraggableWidget> {
     final filteredEdges =
         edge.where((e) => selectedIdNodes.contains(e.id)).toList();
 
-    List<Map<String, String>> urlsToDownload = filteredEdges
+    List<Map<String, dynamic>> urlsToDownload = filteredEdges
         .where((e) => e.mediaType == 2
             ? e.videosVersions?.isNotEmpty == true
             : e.imageVersions2?.candidates.isNotEmpty == true)
         .map((e) {
+      final index = edge.indexOf(e);
       final String url = e.mediaType == 2
           ? e.videosVersions!.first.url
           : e.imageVersions2!.candidates.first.url;
       final String ext = e.mediaType == 2 ? "mp4" : "jpg";
-      return {"url": url, "ext": ext};
+      return {"url": url, "ext": ext, "index": index, "batchName": batchName};
     }).toList();
 
     if (urlsToDownload.isNotEmpty) {
@@ -184,6 +184,9 @@ class _DraggableWidgetState extends ConsumerState<DraggableWidget> {
             body:
                 "The ${urlsToDownload.length} elements have been successfully downloaded and are stored in $downloadLocation");
         // Store all the downloaded items into the history screen
+        await ref
+            .read(sharedPreferencesViewmodelProvider)
+            .storeDownloadedElements(widget.type, urlsToDownload);
       }
     }
   }
