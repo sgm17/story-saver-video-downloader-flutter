@@ -178,10 +178,12 @@ class _DraggableWidgetState extends ConsumerState<DraggableWidget> {
       if (downloadResult is bool && downloadResult) {
         final downloadLocation =
             ref.read(sharedPreferencesViewmodelProvider).getDownloadLocation();
+        // Show a notification displaying the location and that everything is ok
         await ref.read(notificationsViewmodelProvider).showNotification(
             title: "Download Successful",
             body:
-                "The ${urlsToDownload.length} elements are stored in $downloadLocation");
+                "The ${urlsToDownload.length} elements have been successfully downloaded and are stored in $downloadLocation");
+        // Store all the downloaded items into the history screen
       }
     }
   }
