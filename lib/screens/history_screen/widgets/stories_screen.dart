@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:story_saver_video_downloader/providers/history_provider/stories_provider.dart';
+import 'package:story_saver_video_downloader/providers/history_provider/providers.dart';
 import 'package:story_saver_video_downloader/screens/history_screen/widgets/story_item.dart';
 
 class StoriesScreen extends ConsumerWidget {
